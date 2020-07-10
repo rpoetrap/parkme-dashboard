@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import { Form, Button } from 'react-bootstrap';
 
 import Web from '../../layouts/Web';
 
@@ -33,12 +32,12 @@ class Login extends Component {
         >
           <div className="d-flex flex-column my-auto">
             <img className="align-self-center mb-4" src="/assets/img/logo.png" style={{ maxWidth: '60%' }} />
-            <Form className="mt-3 font-weight-light">
+            <form className="mt-3 font-weight-light">
               <h3 className="mb-3">Login</h3>
-              <Form.Control className="font-weight-light mb-2" type="text" placeholder="Email Address" />
-              <Form.Control className="font-weight-light mb-2" type="password" placeholder="Password" />
-              <Button block className="mt-4">Login</Button>
-            </Form>
+              <input className="form-control font-weight-light mb-2" type="text" placeholder="Email Address" />
+              <input className="form-control font-weight-light mb-2" type="password" placeholder="Password" />
+              <button className="btn btn-block btn-primary mt-4">Login</button>
+            </form>
           </div>
           <div className="align-self-center pb-3 text-black-50">
             Powered by <span className="text-primary">ParkMe</span> 2020
