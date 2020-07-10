@@ -25,7 +25,7 @@ class Login extends Component {
           position: 'absolute'
         }}></div>
         <div
-          className="col-sm-12 col-md-3 bg-white d-flex flex-column px-5"
+          className="col-sm-12 col-lg-4 col-xl-3 bg-white d-flex flex-column px-5"
           style={{
             borderTopLeftRadius: '32px',
             borderBottomLeftRadius: '32px'
