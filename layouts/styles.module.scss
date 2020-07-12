@@ -7,7 +7,7 @@ main {
   font-family: "Helvetica Neue", Arial, sans-serif;
 
   .sidebar {
-    @extend .d-md-none;
+    @extend .d-none;
     @extend .d-lg-flex;
     @extend .flex-column;
     @extend .col-lg-4;
