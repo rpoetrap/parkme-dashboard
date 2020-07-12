@@ -1,0 +1,143 @@
+@import "bootstrap";
+
+main {
+  @extend .container-fluid;
+  @extend .p-0;
+  @extend .d-flex;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+
+  .sidebar {
+    @extend .d-md-none;
+    @extend .d-lg-flex;
+    @extend .flex-column;
+    @extend .col-lg-4;
+    @extend .col-xl-3;
+    min-height: 100vh;
+    padding: 32px;
+    background-color: #ffffff;
+  
+    .user_tooltip {
+      @extend .d-flex;
+      @extend .justify-content-between;
+      z-index: 1;
+  
+      .icon {
+        width: 1.3em;
+        height: 1.3em;
+      }
+  
+      button {
+        @extend .btn;
+      }
+  
+      .notification {
+        @extend .badge;
+        @extend .badge-pill;
+        @extend .badge-danger;
+        @extend .text-white;
+        @extend .d-inline-flex;
+        @extend .align-items-center;
+  
+        .notification_count {
+          @extend .font-weight-normal;
+          @extend .ml-1;
+        }
+      }
+    }
+  
+    .user_profile {
+      @extend .d-flex;
+      @extend .flex-column;
+      @extend .align-items-center;
+      margin-top: -24px;
+  
+      .user_picture {
+        @extend .rounded-circle;
+        @extend .overflow-hidden;
+        background-color: #E9ECEF;
+        width: 120px;
+        height: 120px;
+  
+        .placeholder {
+          @extend .d-flex;
+          @extend .align-items-end;
+          @extend .text-center;
+          width: 100%;
+          height: 100%;
+  
+          svg {
+            fill: #007bff;
+            height: 80%;
+            width: 80%;
+          }
+        }
+      }
+  
+      .caption {
+        @extend .font-weight-light;
+        @extend .mt-3;
+        @extend .mb-0;
+      }
+    }
+  
+    .menu {
+      @extend .mt-5;
+      @extend .mb-auto;
+  
+      .menu_item {
+        @extend .list-group-item-action;
+        @extend .d-flex;
+        @extend .border-0;
+        @extend .rounded;
+        @extend .mb-3;
+        @extend .align-items-center;
+        @extend .p-2;
+        font-size: 1.25em;
+  
+        .icon {
+          @extend .p-2;
+          @extend .rounded;
+          @extend .text-center;
+          background-color: rgba(255, 255, 255, .5);
+  
+          svg {
+            @extend .d-inline-block;
+            @extend .m-2;
+          }
+        }
+  
+        .label {
+          @extend .ml-3;
+        }
+  
+        &.active {
+          @extend .text-primary;
+          background-color: #D9EDF7;
+        }
+      }
+    }
+  
+    .logout {
+      @extend .btn;
+      @extend .btn-danger;
+      @extend .btn-lg;
+      @extend .d-flex;
+      @extend .align-items-center;
+      @extend .mx-auto;
+  
+      span {
+        @extend .pl-3;
+        @extend .mx-1;
+        @extend .font-weight-light;
+      }
+    }
+  }
+}
+
+.content {
+  @extend .col-md-12;
+  @extend .col-lg-8;
+  @extend .col-xl-9;
+  background-color: #E9ECEF;
+  padding: 32px;
+}
