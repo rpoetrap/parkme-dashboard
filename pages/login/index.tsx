@@ -1,45 +1,27 @@
 import { Component } from 'react';
 
 import Web from '../../layouts/Web';
+import styles from './styles.module.scss';
 
 class Login extends Component {
   render() {
     return (
       <Web
         title="Login"
-        className="p-0 d-flex justify-content-end"
-        style={{
-          backgroundColor: '#0C203A',
-          minHeight: '100vh'
-        }}>
-        <div style={{
-          backgroundImage: `url(/assets/img/background.jpg)`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          opacity: 0.3,
-          filter: 'blur(10px)',
-          minHeight: '100vh',
-          minWidth: '100vw',
-          position: 'absolute'
-        }}></div>
-        <div
-          className="col-sm-12 col-lg-4 col-xl-3 bg-white d-flex flex-column px-5"
-          style={{
-            borderTopLeftRadius: '32px',
-            borderBottomLeftRadius: '32px'
-          }}
-        >
-          <div className="d-flex flex-column my-auto">
-            <img className="align-self-center mb-4" src="/assets/img/logo.png" style={{ maxWidth: '60%' }} />
-            <form className="mt-3 font-weight-light">
-              <h3 className="mb-3">Login</h3>
-              <input className="form-control font-weight-light mb-2" type="text" placeholder="Email Address" />
-              <input className="form-control font-weight-light mb-2" type="password" placeholder="Password" />
-              <button className="btn btn-block btn-primary mt-4">Login</button>
+        className={styles.container}
+      >
+        <div className={styles.background}></div>
+        <div className={styles.login_container}>
+          <div className={styles.login_form}>
+            <img src="/assets/img/logo.png" />
+            <form>
+              <h3 className={styles.title}>Login</h3>
+              <input type="text" placeholder="Email Address" />
+              <input type="password" placeholder="Password" />
+              <button>Login</button>
             </form>
           </div>
-          <div className="align-self-center pb-3 text-black-50">
+          <div className={styles.footer}>
             Powered by <span className="text-primary">ParkMe</span> 2020
           </div>
         </div>
