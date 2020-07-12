@@ -70,7 +70,7 @@ const Authenticated: FunctionComponent<Props> = (props: Props) => {
               {/* <img></img> */}
             </div>
             <h5 className={styles.caption}>Halo,</h5>
-            <h3>Nama Saya</h3>
+            <h4>Nama Saya</h4>
           </div>
           {/* Menu Items */}
           <div className={styles.menu}>
