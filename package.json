@@ -34,6 +34,7 @@
   },
   "license": "ISC",
   "nodemonConfig": {
+    "ext": "ts, tsx, scss, json",
     "execMap": {
       "ts": "ts-node --project tsconfig.server.json"
     }
