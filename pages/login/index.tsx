@@ -29,7 +29,7 @@ const LoginPage: FunctionComponent<Props> = (props: Props) => {
           </form>
         </div>
         <div className={styles.footer}>
-          Powered by <span className="text-primary">ParkMe</span> 2020
+          Powered by <span className={styles['text-primary']}>ParkMe</span> 2020
           </div>
       </div>
     </Web>
