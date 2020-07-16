@@ -17,7 +17,7 @@ const FormInput: FunctionComponent<Props> = (props: Props) => {
       return (
         <div className={styles['mb-3']}>
           <input
-            className={getter && getter.error && styles.invalid}
+            className={getter && getter.error ? styles.invalid : undefined}
             type="password"
             placeholder={placeholder}
             value={getter ? getter.value : undefined}
@@ -34,7 +34,7 @@ const FormInput: FunctionComponent<Props> = (props: Props) => {
       return (
         <div className={styles['mb-3']}>
           <input
-            className={getter && getter.error && styles.invalid}
+            className={getter && getter.error ? styles.invalid : undefined}
             type="text"
             placeholder={placeholder}
             value={getter ? getter.value : undefined}
