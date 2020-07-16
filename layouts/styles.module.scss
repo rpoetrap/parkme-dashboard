@@ -13,7 +13,7 @@ main {
     @extend .col-lg-4;
     @extend .col-xl-3;
     min-height: 100vh;
-    padding: 32px;
+    padding: 2rem;
     background-color: #ffffff;
 
     .user_tooltip {
@@ -49,14 +49,14 @@ main {
       @extend .d-flex;
       @extend .flex-column;
       @extend .align-items-center;
-      margin-top: -24px;
+      margin-top: -1.5rem;
 
       .user_picture {
         @extend .rounded-circle;
         @extend .overflow-hidden;
         background-color: #e9ecef;
-        width: 120px;
-        height: 120px;
+        width: 7.5rem;
+        height: 7.5rem;
 
         .placeholder {
           @extend .d-flex;
@@ -152,4 +152,18 @@ main {
   @extend .col-xl-9;
   background-color: #e9ecef;
   padding: 32px;
+
+  .title {
+    @extend .d-inline-block;
+  }
+  
+  .time {
+    @extend .d-none;
+    @extend .d-md-block;
+    @extend .float-right;
+    @extend .bg-white;
+    @extend .rounded;
+    @extend .shadow-sm;
+    padding: 0.625rem 1rem;
+  }
 }

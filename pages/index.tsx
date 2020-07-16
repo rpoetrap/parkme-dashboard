@@ -1,5 +1,4 @@
 import { FunctionComponent } from 'react'
-import moment from 'moment';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import Select from 'react-select';
 
@@ -44,12 +43,6 @@ const IndexPage: FunctionComponent<Props> = (props: Props) => {
   ];
   return (
     <Authenticated title="Dashboard">
-      <div>
-        <h2 className="d-inline-block">Dashboard</h2>
-        <div className="d-none d-md-block float-right bg-white rounded shadow-sm" style={{ padding: '0.625rem 1rem' }}>
-          {moment().format('DD MMMM YYYY HH:mm')}
-        </div>
-      </div>
       <div className="row mt-4">
         <div className="col-12 col-lg-7" style={{ marginBottom: '1.875rem' }}>
           <div className="card shadow-sm">
@@ -61,8 +54,8 @@ const IndexPage: FunctionComponent<Props> = (props: Props) => {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Area type="monotone" dataKey="amt" fill="blue" stroke="#8884d8" />
-                  <Area type="monotone" dataKey="pv" fill="red" stroke="#8884d8" />
+                  <Area type="natural" dataKey="amt" fill="#007bff" stroke="#007bff" strokeWidth={0} dot={true} />
+                  <Area type="natural" dataKey="pv" fill="red" stroke="red" strokeWidth={0} dot={true} />
                 </AreaChart>
               </ResponsiveContainer>
             </div>

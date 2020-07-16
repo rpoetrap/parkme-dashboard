@@ -1,10 +1,11 @@
-import React, { ReactNode, FunctionComponent } from 'react'
+import React, { ReactNode, FunctionComponent, useState, useEffect } from 'react'
 import Head from 'next/head'
 import { FaBell, FaCog, FaHome, FaParking, FaUserFriends, FaAddressCard, FaSignOutAlt } from 'react-icons/fa';
 import { ReactSVG } from 'react-svg';
 import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
 import cx from 'classnames';
+import moment from 'moment';
 
 import styles from './styles.module.scss';
 
@@ -40,6 +41,11 @@ const menuItems = [
 const Authenticated: FunctionComponent<Props> = (props: Props) => {
   const { children, title, style } = props;
   const router = useRouter();
+
+  const [time, setTime] = useState(moment());
+  useEffect(() => {
+    setInterval(() => setTime(moment()), 1000);
+  }, []);
 
   return (
     <div>
@@ -96,6 +102,12 @@ const Authenticated: FunctionComponent<Props> = (props: Props) => {
           </button>
         </div>
         <div className={styles.content} style={style}>
+          <div>
+            <h2 className={styles.title}>{title}</h2>
+            <div className={styles.time}>
+              {time.format('DD MMMM YYYY HH:mm:ss')}
+            </div>
+          </div>
           {children}
         </div>
       </main>
