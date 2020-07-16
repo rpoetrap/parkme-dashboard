@@ -1,6 +1,7 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useState } from 'react';
 
 import Web from '../../layouts/Web';
+import FormInput from '../../components/FormInput';
 import styles from './styles.module.scss';
 
 interface Props {
@@ -8,6 +9,9 @@ interface Props {
 }
 const LoginPage: FunctionComponent<Props> = (props: Props) => {
   const { } = props;
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
   return (
     <Web
       title="Login"
@@ -19,8 +23,8 @@ const LoginPage: FunctionComponent<Props> = (props: Props) => {
           <img src="/assets/img/logo.png" />
           <form>
             <h3 className={styles.title}>Login</h3>
-            <input type="text" placeholder="Email Address" />
-            <input type="password" placeholder="Password" />
+            <FormInput type="text" placeholder="Email Address" setter={setEmail} getter={email} />
+            <FormInput type="password" placeholder="Password" setter={setPassword} getter={password} />
             <button>Login</button>
           </form>
         </div>

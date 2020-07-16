@@ -49,12 +49,6 @@
         @extend .mb-3;
       }
 
-      input {
-        @extend .form-control;
-        @extend .font-weight-light;
-        @extend .mb-2;
-      }
-
       button {
         @extend .btn;
         @extend .btn-block;

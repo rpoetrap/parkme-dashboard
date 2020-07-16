@@ -1,0 +1,10 @@
+@import "bootstrap";
+
+input {
+  @extend .form-control;
+  @extend .mb-2;
+
+  &::placeholder {
+    @extend .font-weight-light;
+  }
+}

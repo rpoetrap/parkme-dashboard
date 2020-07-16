@@ -1,5 +1,7 @@
 import App from 'next/app';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import styles from './styles.module.scss';
+styles;
 
 class CoreApp extends App {
   render() {
