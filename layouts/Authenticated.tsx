@@ -61,7 +61,7 @@ const Authenticated: FunctionComponent<Props> = (props: Props) => {
               <FaBell className={styles.icon} />
               <span className={styles.notification_count}>99+</span>
             </button>
-            <button type="button" className="p-0">
+            <button type="button" className={styles['p-0']}>
               <FaCog className={cx(styles.icon, 'text-primary')} />
             </button>
           </div>
@@ -102,10 +102,10 @@ const Authenticated: FunctionComponent<Props> = (props: Props) => {
           </button>
         </div>
         <div className={styles.content} style={style}>
-          <div>
+          <div className={styles['mb-4']}>
             <h2 className={styles.title}>{title}</h2>
             <div className={styles.time}>
-              {time.format('DD MMMM YYYY HH:mm:ss')}
+              {time.format('DD MMMM YYYY HH:mm')}
             </div>
           </div>
           {children}
