@@ -16,6 +16,8 @@ interface Props {
   getter: any;
 }
 
+let reactSelectId = 1;
+
 const FormInput: FunctionComponent<Props> = (props: Props) => {
   const { type, placeholder, setter, getter } = props;
 
@@ -24,6 +26,7 @@ const FormInput: FunctionComponent<Props> = (props: Props) => {
       const { data } = props;
       return (
         <Select
+          id={`react-select-${reactSelectId++}`}
           styles={{ input: () => ({ boxShadow: 'none', 'input': { boxShadow: 'none' } }) }}
           options={data}
           onChange={(data) => setter(data)}
