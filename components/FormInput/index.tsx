@@ -1,10 +1,17 @@
 import { FunctionComponent, Dispatch, SetStateAction } from 'react';
+import Select, { OptionsType, OptionTypeBase } from 'react-select';
 
 import styles from '../../pages/styles.module.scss';
+
+interface OptionType extends OptionTypeBase {
+  label: string;
+  value: string;
+}
 
 interface Props {
   type: string;
   placeholder?: string;
+  data?: OptionsType<OptionType>;
   setter: Dispatch<SetStateAction<any>>;
   getter: any;
 }
@@ -13,6 +20,17 @@ const FormInput: FunctionComponent<Props> = (props: Props) => {
   const { type, placeholder, setter, getter } = props;
 
   switch (type) {
+    case 'dropdown': {
+      const { data } = props;
+      return (
+        <Select
+          styles={{ input: () => ({ boxShadow: 'none', 'input': { boxShadow: 'none' } }) }}
+          options={data}
+          onChange={(data) => setter(data)}
+          value={getter}
+        />
+      )
+    }
     case 'password': {
       return (
         <div className={styles['mb-3']}>

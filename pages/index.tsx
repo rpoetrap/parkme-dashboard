@@ -1,8 +1,8 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useState } from 'react'
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import Select from 'react-select';
 
 import Authenticated from '../layouts/Authenticated'
+import FormInput from '../components/FormInput';
 
 interface Props {
 
@@ -10,6 +10,8 @@ interface Props {
 
 const IndexPage: FunctionComponent<Props> = (props: Props) => {
   const { } = props;
+
+  const [selectStats, setSelectStats] = useState();
   const data = [
     {
       name: 'Page A', uv: 590, pv: 800, amt: 1400, cnt: 490,
@@ -65,8 +67,11 @@ const IndexPage: FunctionComponent<Props> = (props: Props) => {
           <div className="card shadow-sm h-100">
             <div className="d-flex flex-column" style={{ padding: '1.875rem' }}>
               <div className="mb-3">
-                <Select
-                  options={options}
+                <FormInput
+                  type="dropdown"
+                  data={options}
+                  setter={setSelectStats}
+                  getter={selectStats}
                 />
               </div>
               <div className="row" style={{ marginLeft: '-0.5rem', marginRight: '-0.5rem' }}>
