@@ -1,0 +1,11 @@
+@import "bootstrap";
+
+.card {
+  @extend .card;
+  @extend .shadow-sm;
+  @extend .h-100;
+}
+
+.card_body {
+  padding: 1.875rem;
+}

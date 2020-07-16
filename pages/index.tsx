@@ -1,8 +1,11 @@
 import { FunctionComponent, useState } from 'react'
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import cx from 'classnames';
 
 import Authenticated from '../layouts/Authenticated'
 import FormInput from '../components/FormInput';
+import { Card, CardBody } from '../components/Card';
+import styles from './styles.module.scss';
 
 interface Props {
 
@@ -45,10 +48,10 @@ const IndexPage: FunctionComponent<Props> = (props: Props) => {
   ];
   return (
     <Authenticated title="Dashboard">
-      <div className="row mt-4">
-        <div className="col-12 col-lg-7" style={{ marginBottom: '1.875rem' }}>
-          <div className="card shadow-sm">
-            <div style={{ padding: '30px' }}>
+      <div className={styles.row}>
+        <div className={cx(styles['col-12'], styles['col-lg-7'])} style={{ marginBottom: '1.875rem' }}>
+          <Card>
+            <CardBody>
               <ResponsiveContainer height={320} >
                 <AreaChart data={data} >
                   <CartesianGrid stroke="#f5f5f5" />
@@ -60,13 +63,13 @@ const IndexPage: FunctionComponent<Props> = (props: Props) => {
                   <Area type="natural" dataKey="pv" fill="red" stroke="red" strokeWidth={0} dot={true} />
                 </AreaChart>
               </ResponsiveContainer>
-            </div>
-          </div>
+            </CardBody>
+          </Card>
         </div>
-        <div className="col-12 col-lg-5" style={{ marginBottom: '1.875rem' }}>
-          <div className="card shadow-sm h-100">
-            <div className="d-flex flex-column" style={{ padding: '1.875rem' }}>
-              <div className="mb-3">
+        <div className={cx(styles['col-12'], styles['col-lg-5'])} style={{ marginBottom: '1.875rem' }}>
+          <Card>
+            <CardBody>
+              <div className={styles['mb-3']}>
                 <FormInput
                   type="dropdown"
                   data={options}
@@ -74,7 +77,7 @@ const IndexPage: FunctionComponent<Props> = (props: Props) => {
                   getter={selectStats}
                 />
               </div>
-              <div className="row" style={{ marginLeft: '-0.5rem', marginRight: '-0.5rem' }}>
+              <div className={styles.row} style={{ marginLeft: '-0.5rem', marginRight: '-0.5rem' }}>
                 <div className="col-12 col-md-6 col-lg-12 col-xl-6 px-2 my-2">
                   <div className="card p-2 text-white bg-primary border-0" style={{ borderRadius: '0.5rem' }}>
                     <small>Kendaraan Masuk</small>
@@ -88,7 +91,7 @@ const IndexPage: FunctionComponent<Props> = (props: Props) => {
                   </div>
                 </div>
               </div>
-              <div className="row" style={{ marginLeft: '-0.5rem', marginRight: '-0.5rem' }}>
+              <div className={styles.row} style={{ marginLeft: '-0.5rem', marginRight: '-0.5rem' }}>
                 <div className="col-12 px-2 my-2">
                   <div className="card p-2 text-white bg-success border-0" style={{ borderRadius: '0.5rem' }}>
                     <small>Penghasilan</small>
@@ -96,8 +99,8 @@ const IndexPage: FunctionComponent<Props> = (props: Props) => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </CardBody>
+          </Card>
         </div>
       </div>
     </Authenticated>
