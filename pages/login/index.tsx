@@ -9,8 +9,8 @@ interface Props {
 }
 const LoginPage: FunctionComponent<Props> = (props: Props) => {
   const { } = props;
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState({ value: '', error: false, errorMessage: '' });
+  const [password, setPassword] = useState({ value: '', error: false, errorMessage: '' });
 
   return (
     <Web

@@ -2,9 +2,16 @@
 
 input {
   @extend .form-control;
-  @extend .mb-2;
 
   &::placeholder {
     @extend .font-weight-light;
+  }
+
+  &.invalid {
+    @extend .form-control, .is-invalid;
+
+    ~ .invalid-feedback {
+      @extend .d-block;
+    }
   }
 }
