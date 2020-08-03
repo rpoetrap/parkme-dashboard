@@ -1,5 +1,8 @@
 import App from 'next/app';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import moment from 'moment';
+moment.locale('id');
+
 import styles from './styles.module.scss';
 styles;
 
