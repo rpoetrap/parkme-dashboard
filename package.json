@@ -15,11 +15,14 @@
     "moment": "^2.27.0",
     "next": "latest",
     "react": "^16.12.0",
+    "react-data-table-component": "^6.11.0",
     "react-dom": "^16.12.0",
     "react-icons": "^3.10.0",
     "react-select": "^3.1.0",
     "react-svg": "^11.0.29",
-    "recharts": "^1.8.5"
+    "recharts": "^1.8.5",
+    "styled-components": "^5.1.1",
+    "sweetalert2": "^9.17.1"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.10",
@@ -29,6 +32,7 @@
     "@types/react-dom": "^16.9.4",
     "@types/react-select": "^3.0.14",
     "@types/recharts": "^1.8.14",
+    "@types/styled-components": "^5.1.2",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
     "next-compose-plugins": "^2.2.0",
