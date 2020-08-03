@@ -57,10 +57,10 @@ const Authenticated: FunctionComponent<Props> = (props: Props) => {
       <main>
         <div className={styles.sidebar}>
           <div className={styles.user_tooltip}>
-            <button type="button" className={styles.notification}>
+            {/* <button type="button" className={styles.notification}>
               <FaBell className={styles.icon} />
               <span className={styles.notification_count}>99+</span>
-            </button>
+            </button> */}
             <button type="button" className={styles['p-0']}>
               <FaCog className={cx(styles.icon, 'text-primary')} />
             </button>

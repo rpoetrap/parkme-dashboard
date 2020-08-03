@@ -18,7 +18,7 @@ main {
 
     .user_tooltip {
       @extend .d-flex;
-      @extend .justify-content-between;
+      @extend .justify-content-end;
       z-index: 1;
 
       .icon {
