@@ -1,6 +1,6 @@
 import React, { ReactNode, FunctionComponent, useState, useEffect, useContext } from 'react'
 import Head from 'next/head'
-import { FaBell, FaCog, FaHome, FaParking, FaUserFriends, FaAddressCard, FaSignOutAlt } from 'react-icons/fa';
+import { FaBell, FaCog, FaHome, FaParking, FaUserFriends, FaAddressCard, FaSignOutAlt, FaUserLock, FaFileAlt } from 'react-icons/fa';
 import { ReactSVG } from 'react-svg';
 import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
@@ -13,9 +13,10 @@ import authResource from '../resources/auth';
 import Preloader from '../components/Preloader';
 
 interface Props {
-  children?: ReactNode
-  title?: string
-  style?: React.CSSProperties
+  children?: ReactNode;
+  title?: string;
+	style?: React.CSSProperties;
+	loading?: boolean;
 }
 
 const menuItems = [
@@ -25,7 +26,7 @@ const menuItems = [
     link: '/'
   },
   {
-    label: 'Barrier Gates',
+    label: 'Palang Parkir',
     icon: FaParking,
     link: '/gates'
   },
@@ -35,22 +36,34 @@ const menuItems = [
     link: '/users'
   },
   {
-    label: 'Cards',
+    label: 'Hak Akses',
+    icon: FaUserLock,
+    link: '/card-access'
+  },
+  {
+    label: 'Kartu',
     icon: FaAddressCard,
     link: '/cards'
+  },
+  {
+    label: 'Laporan',
+    icon: FaFileAlt,
+    link: '/reports'
   },
 ]
 
 const Authenticated: FunctionComponent<Props> = (props: Props) => {
-  const { children, title, style } = props;
+  const { children, title, style, loading: pageLoading } = props;
 	const router = useRouter();
 	const stateUser = useContext(StateUserContext);
 	const dispatchUser = useContext(DispatchUserContext);
 
 	const [time, setTime] = useState(moment());
+	const [loading, setLoading] = useState(pageLoading || false);
 	
 	const checkAuth = async () => {
     try {
+			setLoading(true);
       const result = await authResource.authCheck();
       if (!result) throw null;
       if (result.error) throw result.error.errors;
@@ -62,7 +75,9 @@ const Authenticated: FunctionComponent<Props> = (props: Props) => {
       dispatchUser({ type: 'set_user', payload: userInfo.data });
     } catch (e) {
       router.push('/login');
-    }
+    } finally {
+			setLoading(false);
+		}
 	}
 
   useEffect(() => {
@@ -78,7 +93,7 @@ const Authenticated: FunctionComponent<Props> = (props: Props) => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <main>
-				{!stateUser.user ? <Preloader/> : (
+				{!stateUser.user || loading ? <Preloader/> : (
 					<>
 						<div className={styles.sidebar}>
 							<div className={styles.user_tooltip}>
@@ -101,7 +116,7 @@ const Authenticated: FunctionComponent<Props> = (props: Props) => {
 									{/* <img></img> */}
 								</div>
 								<h5 className={styles.caption}>Halo,</h5>
-								<h4>Nama Saya</h4>
+								<h4>{stateUser.user.name}</h4>
 							</div>
 							{/* Menu Items */}
 							<div className={styles.menu}>
