@@ -1,4 +1,4 @@
-import React, { ReactNode, FunctionComponent, useState, useEffect } from 'react'
+import React, { ReactNode, FunctionComponent, useState, useEffect, useContext } from 'react'
 import Head from 'next/head'
 import { FaBell, FaCog, FaHome, FaParking, FaUserFriends, FaAddressCard, FaSignOutAlt } from 'react-icons/fa';
 import { ReactSVG } from 'react-svg';
@@ -8,6 +8,9 @@ import cx from 'classnames';
 import moment from 'moment';
 
 import styles from './styles.module.scss';
+import { StateUserContext, DispatchUserContext } from '../dispatcher/user';
+import authResource from '../resources/auth';
+import Preloader from '../components/Preloader';
 
 interface Props {
   children?: ReactNode
@@ -40,10 +43,30 @@ const menuItems = [
 
 const Authenticated: FunctionComponent<Props> = (props: Props) => {
   const { children, title, style } = props;
-  const router = useRouter();
+	const router = useRouter();
+	const stateUser = useContext(StateUserContext);
+	const dispatchUser = useContext(DispatchUserContext);
 
-  const [time, setTime] = useState(moment());
+	const [time, setTime] = useState(moment());
+	
+	const checkAuth = async () => {
+    try {
+      const result = await authResource.authCheck();
+      if (!result) throw null;
+      if (result.error) throw result.error.errors;
+
+			const userInfo = await authResource.getUserInfo();
+			if (!userInfo) throw null;
+      if (userInfo.error) throw userInfo.error.errors;
+			
+      dispatchUser({ type: 'set_user', payload: userInfo.data });
+    } catch (e) {
+      router.push('/login');
+    }
+	}
+
   useEffect(() => {
+		checkAuth();
     setInterval(() => setTime(moment()), 1000);
   }, []);
 
@@ -55,61 +78,65 @@ const Authenticated: FunctionComponent<Props> = (props: Props) => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <main>
-        <div className={styles.sidebar}>
-          <div className={styles.user_tooltip}>
-            {/* <button type="button" className={styles.notification}>
-              <FaBell className={styles.icon} />
-              <span className={styles.notification_count}>99+</span>
-            </button> */}
-            <button type="button" className={styles['p-0']}>
-              <FaCog className={cx(styles.icon, 'text-primary')} />
-            </button>
-          </div>
-          {/* User Profile */}
-          <div className={styles.user_profile}>
-            <div className={styles.user_picture}>
-              {/* Placeholder */}
-              <div className={styles.placeholder}>
-                <ReactSVG src="/assets/img/avatar.svg" />
-              </div>
-              {/* Image */}
-              {/* <img></img> */}
-            </div>
-            <h5 className={styles.caption}>Halo,</h5>
-            <h4>Nama Saya</h4>
-          </div>
-          {/* Menu Items */}
-          <div className={styles.menu}>
-            {menuItems.map((menu, idx) => {
-              const isActive = router.pathname == menu.link;
-              const itemClass = [styles.menu_item];
-              if (isActive) itemClass.push(styles.active);
-              return (
-                <Link href={menu.link} key={idx}>
-                  <a className={cx(itemClass)}>
-                    <div className={styles.icon}>
-                      <menu.icon />
-                    </div>
-                    <span className={styles.label}>{menu.label}</span>
-                  </a>
-                </Link>
-              );
-            })}
-          </div>
-          <button className={styles.logout}>
-            <FaSignOutAlt />
-            <span>Logout</span>
-          </button>
-        </div>
-        <div className={styles.content} style={style}>
-          <div className={styles['mb-4']}>
-            <h2 className={styles.title}>{title}</h2>
-            <div className={styles.time}>
-              {time.format('DD MMMM YYYY HH:mm')}
-            </div>
-          </div>
-          {children}
-        </div>
+				{!stateUser.user ? <Preloader/> : (
+					<>
+						<div className={styles.sidebar}>
+							<div className={styles.user_tooltip}>
+								{/* <button type="button" className={styles.notification}>
+									<FaBell className={styles.icon} />
+									<span className={styles.notification_count}>99+</span>
+								</button> */}
+								<button type="button" className={styles['p-0']}>
+									<FaCog className={cx(styles.icon, 'text-primary')} />
+								</button>
+							</div>
+							{/* User Profile */}
+							<div className={styles.user_profile}>
+								<div className={styles.user_picture}>
+									{/* Placeholder */}
+									<div className={styles.placeholder}>
+										<ReactSVG src="/assets/img/avatar.svg" />
+									</div>
+									{/* Image */}
+									{/* <img></img> */}
+								</div>
+								<h5 className={styles.caption}>Halo,</h5>
+								<h4>Nama Saya</h4>
+							</div>
+							{/* Menu Items */}
+							<div className={styles.menu}>
+								{menuItems.map((menu, idx) => {
+									const isActive = router.pathname == menu.link;
+									const itemClass = [styles.menu_item];
+									if (isActive) itemClass.push(styles.active);
+									return (
+										<Link href={menu.link} key={idx}>
+											<a className={cx(itemClass)}>
+												<div className={styles.icon}>
+													<menu.icon />
+												</div>
+												<span className={styles.label}>{menu.label}</span>
+											</a>
+										</Link>
+									);
+								})}
+							</div>
+							<button className={styles.logout}>
+								<FaSignOutAlt />
+								<span>Logout</span>
+							</button>
+						</div>
+						<div className={styles.content} style={style}>
+							<div className={styles['mb-4']}>
+								<h2 className={styles.title}>{title}</h2>
+								<div className={styles.time}>
+									{time.format('DD MMMM YYYY HH:mm')}
+								</div>
+							</div>
+							{children}
+						</div>
+					</>
+				)}
       </main>
     </div>
   )

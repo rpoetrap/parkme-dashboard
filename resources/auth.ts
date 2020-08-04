@@ -34,7 +34,15 @@ const authResource = {
 			method: 'GET'
 		});
 		return result;
-	}
+	},
+
+	async getUserInfo() {
+		const { data: result } = await axios.request<APIResponse>({
+			url: `${API_HOST}/auth/info`,
+			method: 'GET'
+		});
+		return result;
+	},
 }
 
 export default authResource;
