@@ -3,13 +3,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import moment from 'moment';
 moment.locale('id');
 
+import { UserProvider } from '../dispatcher/user';
 import styles from './styles.module.scss';
 styles;
 
 class CoreApp extends App {
   render() {
     const { Component, pageProps } = this.props;
-    return <Component {...pageProps} />
+    return (
+			<UserProvider>
+				<Component {...pageProps} />
+			</UserProvider>
+		)
   }
 }
 
