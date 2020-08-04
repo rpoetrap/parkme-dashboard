@@ -19,8 +19,7 @@ interface Props {
 const IndexPage: FunctionComponent<Props> = (props: Props) => {
 	const { } = props;
 
-	const [selectStats, setSelectStats] = useState();
-	const [pagination, setPagination] = useState<Pagination>({ pageIndex: 1, itemsPerPage: 2, currentItemCount: 2, totalItems: 20, totalPages: 10, sorts: '' });
+	const [pagination, setPagination] = useState<Pagination>({ pageIndex: 1, itemsPerPage: 10, currentItemCount: 1, totalItems: 1, totalPages: 1, sorts: '' });
 	const data = [
 		{
 			name: 'Page A', uv: 590, pv: 800, amt: 1400, cnt: 490,
@@ -52,6 +51,7 @@ const IndexPage: FunctionComponent<Props> = (props: Props) => {
 			label: 'Minggu ini'
 		}
 	];
+	const [selectStats, setSelectStats] = useState(options[0]);
 
 	const tableData = [
 		{ id: 1, plate: 'S6187NJ', owner: 'Bambang', created_at: moment().subtract(1, 'minute').toDate() },
@@ -131,6 +131,7 @@ const IndexPage: FunctionComponent<Props> = (props: Props) => {
 						<CardBody>
 							<div className={styles['mb-3']}>
 								<FormInput
+									id="dropdownStats"
 									type="dropdown"
 									data={options}
 									setter={setSelectStats}
@@ -169,6 +170,7 @@ const IndexPage: FunctionComponent<Props> = (props: Props) => {
 						<CardBody>
 							<h5 className={styles['mb-3']}>Daftar Kendaraan</h5>
 							<GenericTable
+								id="tableKendaraan"
 								columns={tableColumns}
 								data={tableData}
 								routeName="test"

@@ -9,6 +9,7 @@ interface OptionType extends OptionTypeBase {
 }
 
 interface Props {
+	id?: string;
   type: string;
   placeholder?: string;
   data?: OptionsType<OptionType>;
@@ -19,14 +20,14 @@ interface Props {
 let reactSelectId = 1;
 
 const FormInput: FunctionComponent<Props> = (props: Props) => {
-  const { type, placeholder, setter, getter } = props;
+	const { id, type, placeholder, setter, getter } = props;
 
   switch (type) {
     case 'dropdown': {
       const { data } = props;
       return (
         <Select
-          id={`react-select-${reactSelectId++}`}
+          id={ id ? id : `react-select-${reactSelectId++}`}
           styles={{ input: () => ({ boxShadow: 'none', 'input': { boxShadow: 'none' } }) }}
           options={data}
           onChange={(data) => setter(data)}
@@ -38,6 +39,7 @@ const FormInput: FunctionComponent<Props> = (props: Props) => {
       return (
         <div className={styles['mb-3']}>
           <input
+						id={id ? id : undefined}
             className={getter && getter.error ? styles.invalid : undefined}
             type="password"
             placeholder={placeholder}
@@ -55,6 +57,7 @@ const FormInput: FunctionComponent<Props> = (props: Props) => {
       return (
         <div className={styles['mb-3']}>
           <input
+						id={id ? id : undefined}
             className={getter && getter.error ? styles.invalid : undefined}
             type="text"
             placeholder={placeholder}

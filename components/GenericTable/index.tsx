@@ -6,6 +6,7 @@ import { FaRegEye, FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { Pagination } from '../../types';
 
 interface Props {
+	id?: string;
 	getter: Pagination;
 	setter: Dispatch<SetStateAction<Pagination>>;
 	columns: IDataTableColumn[];
@@ -17,9 +18,12 @@ interface Props {
 	onDelete?: (data: any) => void;
 }
 
+let tableId = 1;
+
 const GenericTable: FunctionComponent<Props> = (props: Props) => {
-	const { getter, setter, data, columns, routeName, customAction, onDelete } = props;
-	let { hideRowNumber, hideAction } = props;
+	const { id, getter, setter, data, routeName, customAction, onDelete } = props;
+	let { hideRowNumber, hideAction, columns } = props;
+	let cellId = 1;
 	hideRowNumber = hideRowNumber ? hideRowNumber : false;
 	hideAction = hideAction ? hideAction : false;
 
@@ -62,6 +66,11 @@ const GenericTable: FunctionComponent<Props> = (props: Props) => {
 			)
 		});
 	}
+
+	columns = columns.map(item => ({
+		...item,
+		id: id ? `${id}-cell${cellId++}` : `table${tableId++}-cell${cellId++}`
+	}));
 
 	const tableStyle: IDataTableStyles = {
 		headCells: {
