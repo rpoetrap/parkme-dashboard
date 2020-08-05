@@ -1,10 +1,10 @@
 import { FunctionComponent, Dispatch, SetStateAction } from 'react';
-import Select, { OptionsType, OptionTypeBase } from 'react-select';
+import Select, { OptionTypeBase } from 'react-select';
 import cx from 'classnames';
 
 import styles from '../../pages/styles.module.scss';
 
-interface OptionType extends OptionTypeBase {
+export interface OptionType extends OptionTypeBase {
   label: string;
   value: string;
 }
@@ -13,7 +13,7 @@ interface Props {
 	id?: string;
   type: string;
   placeholder?: string;
-  data?: OptionsType<OptionType>;
+  data?: OptionType[];
   setter: Dispatch<SetStateAction<any>>;
   getter: any;
 }
