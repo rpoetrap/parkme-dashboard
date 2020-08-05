@@ -49,7 +49,6 @@ const LoginPage: FunctionComponent<Props> = (props: Props) => {
 				title: 'Login gagal',
 				icon: 'error'
 			});
-		} finally {
 			setLoading(false);
 		}
 	}
