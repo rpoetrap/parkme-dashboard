@@ -164,7 +164,7 @@ const Authenticated: FunctionComponent<Props> = (props: Props) => {
 							</div>
 							<button className={styles.logout} disabled={loading.fetch} onClick={logout}>
 								<FaSignOutAlt />
-								{loading.fetch ? <Spinner color="light" /> : <span>Logout</span>}
+								{loading.fetch ? <Spinner className={styles['pl-3']} color="light" /> : <span>Logout</span>}
 							</button>
 						</div>
 						<div className={styles.content} style={style}>
