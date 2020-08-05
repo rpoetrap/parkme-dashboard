@@ -1,7 +1,9 @@
 import { FunctionComponent, useState, useEffect } from 'react'
 import { IDataTableColumn } from 'react-data-table-component';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import Swal from 'sweetalert2';
+import cx from 'classnames';
 
 import Authenticated from '../../layouts/Authenticated'
 import { Card, CardBody } from '../../components/Card';
@@ -68,8 +70,6 @@ const GatesPage: FunctionComponent<Props> = (props: Props) => {
 		}
 	}
 
-	console.log(pagination);
-
 	const deleteData = async (id: number | string) => {
 		try {
 			const result = await gateResource.deleteData(id);
@@ -116,12 +116,17 @@ const GatesPage: FunctionComponent<Props> = (props: Props) => {
 	}, [pagination.pageIndex, pagination.itemsPerPage, pagination.sorts]);
 
   return (
-    <Authenticated title="Barrier Gates" loading={loading}>
+    <Authenticated title="Palang Parkir" loading={loading}>
       <div className={styles.row}>
 				<div className={styles.col}>
 					<Card>
 						<CardBody>
-							<h5 className={styles['mb-3']}>Daftar Kendaraan</h5>
+							<div className={cx(styles['mb-3'], styles['d-flex'])}>
+								<h5 className={styles['mr-auto']}>Daftar Palang Parkir</h5>
+								<Link href={router.pathname + '/add'}>
+									<a className={cx(styles['btn'], styles['btn-primary'])}>+ Tambah Palang</a>
+								</Link>
+							</div>
 							<GenericTable
 								id="tableKendaraan"
 								columns={tableColumns}
