@@ -64,8 +64,12 @@ const LoginPage: FunctionComponent<Props> = (props: Props) => {
           <img src="/assets/img/logo.png" />
           <form onSubmit={onSubmit}>
             <h3 className={styles.title}>Login</h3>
-            <FormInput type="text" placeholder="Username" setter={setUsername} getter={username} />
-            <FormInput type="password" placeholder="Password" setter={setPassword} getter={password} />
+						<div className={styles['row']}>
+            	<FormInput type="text" placeholder="Username" setter={setUsername} getter={username} />
+						</div>
+						<div className={styles['row']}>
+            	<FormInput type="password" placeholder="Password" setter={setPassword} getter={password} />
+						</div>
             <button disabled={loading}>
 							{loading ? (
 								<Spinner color="light" size="sm"/>

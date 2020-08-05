@@ -1,5 +1,6 @@
 import { FunctionComponent, Dispatch, SetStateAction } from 'react';
 import Select, { OptionsType, OptionTypeBase } from 'react-select';
+import cx from 'classnames';
 
 import styles from '../../pages/styles.module.scss';
 
@@ -37,7 +38,7 @@ const FormInput: FunctionComponent<Props> = (props: Props) => {
     }
     case 'password': {
       return (
-        <div className={styles['mb-3']}>
+        <div className={cx(styles['col'], styles['mb-3'])}>
           <input
 						id={id ? id : undefined}
             className={getter && getter.error ? styles.invalid : undefined}
@@ -55,7 +56,7 @@ const FormInput: FunctionComponent<Props> = (props: Props) => {
     case 'text':
     default: {
       return (
-        <div className={styles['mb-3']}>
+        <div className={cx(styles['col'], styles['mb-3'])}>
           <input
 						id={id ? id : undefined}
             className={getter && getter.error ? styles.invalid : undefined}
