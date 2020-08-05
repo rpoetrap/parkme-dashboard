@@ -1,4 +1,4 @@
-import React, { ReactNode, FunctionComponent, useState, useEffect, useContext } from 'react'
+import React, { ReactNode, FunctionComponent, useState, useEffect, useContext, MouseEvent } from 'react'
 import Head from 'next/head'
 import { FaBell, FaCog, FaHome, FaParking, FaUserFriends, FaAddressCard, FaSignOutAlt, FaUserLock, FaFileAlt } from 'react-icons/fa';
 import { ReactSVG } from 'react-svg';
@@ -6,94 +6,120 @@ import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
 import cx from 'classnames';
 import moment from 'moment';
+import { Spinner } from 'reactstrap';
 
 import styles from './styles.module.scss';
 import { StateUserContext, DispatchUserContext } from '../dispatcher/user';
 import authResource from '../resources/auth';
 import Preloader from '../components/Preloader';
+import Swal from 'sweetalert2';
+import { userInfo } from 'os';
 
 interface Props {
-  children?: ReactNode;
-  title?: string;
+	children?: ReactNode;
+	title?: string;
 	style?: React.CSSProperties;
 	loading?: boolean;
 }
 
 const menuItems = [
-  {
-    label: 'Dashboard',
-    icon: FaHome,
-    link: '/'
-  },
-  {
-    label: 'Palang Parkir',
-    icon: FaParking,
-    link: '/gates'
-  },
-  {
-    label: 'Users',
-    icon: FaUserFriends,
-    link: '/users'
-  },
-  {
-    label: 'Hak Akses',
-    icon: FaUserLock,
-    link: '/card-access'
-  },
-  {
-    label: 'Kartu',
-    icon: FaAddressCard,
-    link: '/cards'
-  },
-  {
-    label: 'Laporan',
-    icon: FaFileAlt,
-    link: '/reports'
-  },
+	{
+		label: 'Dashboard',
+		icon: FaHome,
+		link: '/'
+	},
+	{
+		label: 'Palang Parkir',
+		icon: FaParking,
+		link: '/gates'
+	},
+	{
+		label: 'Users',
+		icon: FaUserFriends,
+		link: '/users'
+	},
+	{
+		label: 'Hak Akses',
+		icon: FaUserLock,
+		link: '/card-access'
+	},
+	{
+		label: 'Kartu',
+		icon: FaAddressCard,
+		link: '/cards'
+	},
+	{
+		label: 'Laporan',
+		icon: FaFileAlt,
+		link: '/reports'
+	},
 ]
 
 const Authenticated: FunctionComponent<Props> = (props: Props) => {
-  const { children, title, style, loading: pageLoading } = props;
+	const { children, title, style, loading: pageLoading } = props;
 	const router = useRouter();
 	const stateUser = useContext(StateUserContext);
 	const dispatchUser = useContext(DispatchUserContext);
+	let timeInterval: number;
 
 	const [time, setTime] = useState(moment());
-	const [loading, setLoading] = useState(pageLoading || false);
-	
+	const [loading, setLoading] = useState({ page: pageLoading || false, fetch: false });
+
 	const checkAuth = async () => {
-    try {
-			setLoading(true);
-      const result = await authResource.authCheck();
-      if (!result) throw null;
-      if (result.error) throw result.error.errors;
+		try {
+			setLoading(loading => ({ ...loading, page: true }));
+			const result = await authResource.authCheck();
+			if (!result) throw null;
+			if (result.error) throw result.error.errors;
 
 			const userInfo = await authResource.getUserInfo();
 			if (!userInfo) throw null;
-      if (userInfo.error) throw userInfo.error.errors;
-			
-      dispatchUser({ type: 'set_user', payload: userInfo.data });
-    } catch (e) {
-      router.push('/login');
-    } finally {
-			setLoading(false);
+			if (userInfo.error) throw userInfo.error.errors;
+
+			dispatchUser({ type: 'set_user', payload: userInfo.data });
+		} catch {
+			router.push('/login');
+		} finally {
+			setLoading(loading => ({ ...loading, page: false }));
 		}
 	}
 
-  useEffect(() => {
-		checkAuth();
-    setInterval(() => setTime(moment()), 1000);
-  }, []);
+	const logout = async (e: MouseEvent<HTMLButtonElement>) => {
+		try {
+			e.preventDefault();
+			setLoading(loading => ({ ...loading, fetch: true }));
+			const result = await authResource.logout();
+			if (!result) throw null;
+			if (result.error) throw result.error.errors;
 
-  return (
-    <div>
-      <Head>
-        <title>{title ? `${title} | ParkMe` : 'ParkMe'}</title>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
-      <main>
-				{!stateUser.user || loading ? <Preloader/> : (
+			dispatchUser({ type: 'logout' });
+			router.push('/login');
+		} catch {
+			Swal.fire({
+				title: 'Error',
+				icon: 'error'
+			});
+			setLoading(loading => ({ ...loading, fetch: false }));
+		}
+	}
+
+	useEffect(() => {
+		checkAuth();
+		timeInterval = setInterval(() => {
+			if (stateUser.logout || !stateUser.user) clearInterval(timeInterval);
+			else setTime(moment()), 1000;
+		});
+	}, []);
+
+	return (
+		<div>
+			<Head>
+				<title>{title ? `${title} | ParkMe` : 'ParkMe'}</title>
+				<meta charSet="utf-8" />
+				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+			</Head>
+			<main>
+				{!stateUser.user || loading.page ? <Preloader /> : (
 					<>
 						<div className={styles.sidebar}>
 							<div className={styles.user_tooltip}>
@@ -136,9 +162,9 @@ const Authenticated: FunctionComponent<Props> = (props: Props) => {
 									);
 								})}
 							</div>
-							<button className={styles.logout}>
+							<button className={styles.logout} disabled={loading.fetch} onClick={logout}>
 								<FaSignOutAlt />
-								<span>Logout</span>
+								{loading.fetch ? <Spinner color="light" /> : <span>Logout</span>}
 							</button>
 						</div>
 						<div className={styles.content} style={style}>
@@ -152,9 +178,9 @@ const Authenticated: FunctionComponent<Props> = (props: Props) => {
 						</div>
 					</>
 				)}
-      </main>
-    </div>
-  )
+			</main>
+		</div>
+	)
 }
 
 export default Authenticated
