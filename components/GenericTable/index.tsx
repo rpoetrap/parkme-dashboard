@@ -51,6 +51,7 @@ const GenericTable: FunctionComponent<Props> = (props: Props) => {
 			name: 'Action',
 			sortable: false,
 			center: true,
+			minWidth: '8rem',
 			cell: data => customAction !== undefined ? customAction(data) : (
 				<div>
 					<Link href={`/${routeName}/${data.id}`}>
