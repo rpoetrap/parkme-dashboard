@@ -11,6 +11,7 @@ import GenericTable from '../components/GenericTable';
 import styles from './styles.module.scss';
 import { IDataTableColumn } from 'react-data-table-component';
 import { Pagination } from '../types';
+import { number } from '../utils/string';
 
 interface Props {
 
@@ -134,13 +135,13 @@ const IndexPage: FunctionComponent<Props> = (props: Props) => {
 								<div className="col-12 col-md-6 col-lg-12 col-xl-6 px-2 my-2">
 									<div className="card p-2 text-white bg-primary border-0" style={{ borderRadius: '0.5rem' }}>
 										<small>Kendaraan Masuk</small>
-										<h3 className="m-0 font-weight-normal">{statsData.map(item => item.masuk).reduce((a, b) => (a + b))}</h3>
+										<h3 className="m-0 font-weight-normal">{number.formatNumber(statsData.map(item => item.masuk).reduce((a, b) => (a + b)))}</h3>
 									</div>
 								</div>
 								<div className="col-12 col-md-6 col-lg-12 col-xl-6 px-2 my-2">
 									<div className="card p-2 text-white bg-danger border-0" style={{ borderRadius: '0.5rem' }}>
 										<small>Kendaraan Keluar</small>
-										<h3 className="m-0 font-weight-normal">{statsData.map(item => item.keluar).reduce((a, b) => (a + b))}</h3>
+										<h3 className="m-0 font-weight-normal">{number.formatNumber(statsData.map(item => item.keluar).reduce((a, b) => (a + b)))}</h3>
 									</div>
 								</div>
 							</div>
@@ -148,7 +149,7 @@ const IndexPage: FunctionComponent<Props> = (props: Props) => {
 								<div className="col-12 px-2 my-2">
 									<div className="card p-2 text-white bg-success border-0" style={{ borderRadius: '0.5rem' }}>
 										<small>Penghasilan</small>
-										<h3 className="m-0 font-weight-normal">Rp {statsData.map(item => item.keluar).reduce((a, b) => (a + b)) * 1000}</h3>
+										<h3 className="m-0 font-weight-normal">{number.formatMoney(statsData.map(item => item.keluar).reduce((a, b) => (a + b)) * 1000)}</h3>
 									</div>
 								</div>
 							</div>

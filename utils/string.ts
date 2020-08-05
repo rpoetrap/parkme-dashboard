@@ -1,3 +1,5 @@
+import accounting from 'accounting';
+
 interface ObjectString {
 	[key: string]: string;
 }
@@ -12,3 +14,19 @@ export const valToString = (obj: any): ObjectString => {
 	});
 	return cloned;
 }
+
+accounting.settings = {
+	currency: {
+		symbol: 'Rp',
+		format: '%s %v',
+		decimal: ',',
+		thousand: '.',
+		precision: 0
+	},
+	number: {
+		precision: 0,
+		thousand: '.',
+		decimal: ','
+	}
+}
+export const number = accounting;
