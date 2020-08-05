@@ -3,11 +3,12 @@ interface ObjectString {
 }
 
 export const valToString = (obj: any): ObjectString => {
-	Object.keys(obj).forEach(k => {
-		if (typeof obj[k] === 'object') {
-			return valToString(obj[k]);
+	const cloned = { ...obj };
+	Object.keys(cloned).forEach(k => {
+		if (typeof cloned[k] === 'object') {
+			return valToString(cloned[k]);
 		}
-		obj[k] = '' + obj[k];
+		cloned[k] = '' + cloned[k];
 	});
-	return obj;
+	return cloned;
 }
