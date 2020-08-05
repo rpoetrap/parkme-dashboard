@@ -10,7 +10,8 @@ export interface Pagination {
 }
 
 export interface APIData extends Pagination {
-	kind?: string;
+	kind: string;
+	items: any[];
 	[key: string]: any;
 }
 
@@ -22,7 +23,7 @@ export interface APIErrors {
 
 export interface APIResponse {
 	apiVersion: string;
-	data?: APIData;
+	data: APIData;
 	error?: {
 		code: number;
 		message: string;
