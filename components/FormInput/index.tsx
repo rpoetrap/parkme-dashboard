@@ -1,6 +1,5 @@
 import { FunctionComponent, Dispatch, SetStateAction } from 'react';
 import Select, { OptionTypeBase } from 'react-select';
-import cx from 'classnames';
 
 import styles from '../../pages/styles.module.scss';
 
@@ -27,18 +26,20 @@ const FormInput: FunctionComponent<Props> = (props: Props) => {
     case 'dropdown': {
       const { data } = props;
       return (
-        <Select
-          id={ id ? id : `react-select-${reactSelectId++}`}
-          styles={{ input: () => ({ boxShadow: 'none', 'input': { boxShadow: 'none' } }) }}
-          options={data}
-          onChange={(data) => setter(data)}
-          value={getter}
-        />
+        <div className={styles['col']}>
+          <Select
+            id={ id ? id : `react-select-${reactSelectId++}`}
+            styles={{ input: () => ({ boxShadow: 'none', 'input': { boxShadow: 'none', height: 'unset' } }) }}
+            options={data}
+            onChange={(data) => setter(data)}
+            value={getter}
+          />
+        </div>
       )
     }
     case 'password': {
       return (
-        <div className={cx(styles['col'], styles['mb-3'])}>
+        <div className={styles['col']}>
           <input
 						id={id ? id : undefined}
             className={getter && getter.error ? styles.invalid : undefined}
@@ -56,7 +57,7 @@ const FormInput: FunctionComponent<Props> = (props: Props) => {
     case 'text':
     default: {
       return (
-        <div className={cx(styles['col'], styles['mb-3'])}>
+        <div className={styles['col']}>
           <input
 						id={id ? id : undefined}
             className={getter && getter.error ? styles.invalid : undefined}
