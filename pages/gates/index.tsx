@@ -31,7 +31,7 @@ const GatesPage: FunctionComponent<Props> = (props: Props) => {
 			sortable: true
 		},
 		{
-			name: 'Tipe',
+			name: 'Jenis',
 			selector: 'type',
 			format: data => data.type === 'in' ? 'Masuk' : 'Keluar',
 			sortable: true
@@ -40,11 +40,6 @@ const GatesPage: FunctionComponent<Props> = (props: Props) => {
 			name: 'Deskripsi',
 			selector: 'description',
 			grow: 3,
-			sortable: true
-		},
-		{
-			name: 'Kode',
-			selector: 'code',
 			sortable: true
 		},
 	];
