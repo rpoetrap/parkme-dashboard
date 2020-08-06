@@ -147,7 +147,9 @@ const Authenticated: FunctionComponent<Props> = (props: Props) => {
 							{/* Menu Items */}
 							<div className={styles.menu}>
 								{menuItems.map((menu, idx) => {
-									const isActive = router.pathname == menu.link;
+									const pathArray = router.pathname.split('/').filter(item => item !== '');
+									const menuLinkArray = menu.link.split('/').filter(item => item !== '');
+									const isActive = router.pathname == menu.link || pathArray.length > 0 ? pathArray[0] == menuLinkArray[0] : false;
 									const itemClass = [styles.menu_item];
 									if (isActive) itemClass.push(styles.active);
 									return (
