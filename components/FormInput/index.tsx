@@ -1,7 +1,9 @@
 import { FunctionComponent, Dispatch, SetStateAction } from 'react';
 import Select, { OptionTypeBase } from 'react-select';
+import cx from 'classnames';
 
 import styles from '../../pages/styles.module.scss';
+import { InputState } from '../../types';
 
 export interface OptionType extends OptionTypeBase {
   label: string;
@@ -13,8 +15,8 @@ interface Props {
   type: string;
   placeholder?: string;
   data?: OptionType[];
-  setter: Dispatch<SetStateAction<any>>;
-  getter: any;
+  setter: Dispatch<SetStateAction<InputState<any>>>;
+  getter: InputState<any>;
 }
 
 let reactSelectId = 1;
@@ -29,11 +31,25 @@ const FormInput: FunctionComponent<Props> = (props: Props) => {
         <div className={styles['col']}>
           <Select
             id={ id ? id : `react-select-${reactSelectId++}`}
-            styles={{ input: () => ({ boxShadow: 'none', 'input': { boxShadow: 'none', height: 'unset' } }) }}
+            className={getter && getter.error ? styles.invalid : undefined}
+            styles={{
+              input: () => ({
+                boxShadow: 'none',
+                'input': { boxShadow: 'none', height: 'unset' }
+              }),
+              control: (provided, state) => ({
+                ...provided, borderColor: getter.error ? '#dc3545' : provided.borderColor,
+                '&:hover': { borderColor: getter.error ? '#dc3545' : provided.borderColor },
+                boxShadow: getter.error && state.isFocused ? '0 0 0 1px #dc3545' : provided.boxShadow
+              })
+            }}
             options={data}
-            onChange={(data) => setter(data)}
-            value={getter}
+            onChange={(data) => setter({ value: data, error: false, errorMessage: '' })}
+            value={getter ? getter.value : undefined}
           />
+          <div className={styles['invalid-feedback']}>
+            {getter && getter.errorMessage}
+          </div>
         </div>
       )
     }

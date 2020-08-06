@@ -15,3 +15,11 @@ input {
     }
   }
 }
+
+div {
+  &.invalid {
+    ~ .invalid-feedback {
+      @extend .d-block;
+    }
+  }
+}

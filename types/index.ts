@@ -1,3 +1,11 @@
+export type ButtonState = 'disabled' | 'requesting' | 'active';
+
+export interface InputState<T> {
+	value: T,
+	error: boolean,
+	errorMessage: string
+}
+
 export interface Pagination {
 	currentItemCount: number,
 	itemsPerPage: number;

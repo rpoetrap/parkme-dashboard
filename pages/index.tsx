@@ -5,12 +5,12 @@ import Swal from 'sweetalert2';
 import moment from 'moment';
 
 import Authenticated from '../layouts/Authenticated'
-import FormInput from '../components/FormInput';
+import FormInput, { OptionType } from '../components/FormInput';
 import { Card, CardBody } from '../components/Card';
 import GenericTable from '../components/GenericTable';
 import styles from './styles.module.scss';
 import { IDataTableColumn } from 'react-data-table-component';
-import { Pagination } from '../types';
+import { Pagination, InputState } from '../types';
 import { number } from '../utils/string';
 
 interface Props {
@@ -32,8 +32,6 @@ const IndexPage: FunctionComponent<Props> = (props: Props) => {
 		})
 	}
 
-	console.log(statsData);
-
 	const options = [
 		{
 			value: 'today',
@@ -44,7 +42,7 @@ const IndexPage: FunctionComponent<Props> = (props: Props) => {
 			label: 'Minggu ini'
 		}
 	];
-	const [selectStats, setSelectStats] = useState(options[0]);
+	const [selectStats, setSelectStats] = useState<InputState<OptionType>>({ value: options[0], error: false, errorMessage: '' });
 
 	const tableData = [
 		{ id: 1, plate: 'S6187NJ', owner: 'Bambang', created_at: moment().subtract(1, 'minute').toDate() },
@@ -79,8 +77,6 @@ const IndexPage: FunctionComponent<Props> = (props: Props) => {
 			sortable: false
 		},
 	];
-
-	console.log(pagination);
 
 	const onDelete = (data: any) => {
 		Swal.fire({
