@@ -3,6 +3,7 @@ import { FunctionComponent, Dispatch, SetStateAction, ReactNode } from 'react';
 import DataTable, { IDataTableStyles, IDataTableColumn } from 'react-data-table-component';
 import { FaRegEye, FaEdit, FaTrashAlt } from 'react-icons/fa';
 
+import styles from '../../pages/styles.module.scss';
 import { Pagination } from '../../types';
 
 interface Props {
@@ -111,6 +112,7 @@ const GenericTable: FunctionComponent<Props> = (props: Props) => {
 			columns={columns}
 			data={data}
 			noHeader={true}
+			noDataComponent={<div className={styles['p-4']}>Tidak ada data</div>}
 			customStyles={tableStyle}
 			striped={true}
 			pagination={true}
