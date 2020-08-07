@@ -15,7 +15,7 @@ interface Props extends GlobalProps {
 
 }
 
-const AddGatesPage: NextPage<Props> = (props: Props) => {
+const AddGatePage: NextPage<Props> = (props: Props) => {
 	const { } = props;
 	const router = useRouter();
 	const resourcePath = router.pathname.split('/').slice(0, -1).join('/');
@@ -127,4 +127,4 @@ const AddGatesPage: NextPage<Props> = (props: Props) => {
 	)
 }
 
-export default AddGatesPage;
+export default AddGatePage;
