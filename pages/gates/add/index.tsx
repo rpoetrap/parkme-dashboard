@@ -45,7 +45,7 @@ const AddGatesPage: FunctionComponent<Props> = (props: Props) => {
 
 			Swal.fire({
 				title: 'Success',
-				text: 'Palang parkir berhasil ditambahkan',
+				html: `<div>Palang parkir berhasil ditambahkan<br />Kode: <b>${result?.data?.code}</b></div>`,
 				icon: 'success'
 			}).then(() => router.push(resourcePath));
 		} catch (err) {
