@@ -108,8 +108,8 @@ const IndexPage: FunctionComponent<Props> = (props: Props) => {
 									<YAxis />
 									<Tooltip />
 									<Legend />
-									<Area type="basis" dataKey="masuk" fill="#007bff" stroke="#007bff" strokeWidth={0} />
-									<Area type="basis" dataKey="keluar" fill="red" stroke="red" strokeWidth={0} />
+									<Area type="natural" dataKey="masuk" fill="#007bff" stroke="#007bff" strokeWidth={0} />
+									<Area type="natural" dataKey="keluar" fill="red" stroke="red" strokeWidth={0} />
 								</AreaChart>
 							</ResponsiveContainer>
 						</CardBody>
