@@ -22,7 +22,6 @@ const SingleGatePage: NextPage<Props> = (props: Props) => {
 	
 	const router = useRouter();
 	const { id } = router.query;
-
 	const resourcePath = router.pathname.split('/').slice(0, -1).join('/');
 
 	const [resourceData, setResourceData] = useState<any>(null);
@@ -44,6 +43,46 @@ const SingleGatePage: NextPage<Props> = (props: Props) => {
 		}
 	}
 
+	const deleteData = async () => {
+		try {
+			const result = await gateResource.deleteData(id as string);
+			if (!result) throw null;
+			if (result.error && result.error.errors) throw result.error.errors;
+			Swal.fire({
+				title: 'Success',
+				text: 'Palang parkir berhasil dihapus',
+				icon: 'success'
+			}).then(() => router.push(resourcePath));
+		} catch {
+			Swal.fire({
+				title: 'Error to delete gates',
+				text: 'Gagal menghapus palang parkir',
+				icon: 'error'
+			});
+		}
+	}
+
+	const onDelete = () => {
+		Swal.fire({
+			title: 'Apakah anda yakin?',
+			text: 'Ingin menghapus palang parkir ini?',
+			icon: 'warning',
+			showCancelButton: true,
+			reverseButtons: true,
+			confirmButtonText: 'Hapus',
+			cancelButtonText: 'Batal',
+			buttonsStyling: false,
+			customClass: {
+				confirmButton: 'btn btn-danger btn-lg mx-2',
+				cancelButton: 'btn btn-light btn-lg mx-2'
+			}
+		}).then(result => {
+			if (result.isConfirmed) {
+				deleteData();
+			}
+		});
+	}
+
 	useEffect(() => {
 		setLoading(true);
 		if (!id) return;
@@ -62,7 +101,7 @@ const SingleGatePage: NextPage<Props> = (props: Props) => {
 								<Link href={`${router.asPath}/edit`}>
 									<a className={cx(styles['btn'], styles['btn-sm'], styles['btn-primary'], styles['mr-2'])}><FaEdit /></a>
 								</Link>
-								<button className={cx(styles['btn'], styles['btn-sm'], styles['btn-danger'])}><FaTrashAlt /></button>
+								<button type="button" className={cx(styles['btn'], styles['btn-sm'], styles['btn-danger'])} onClick={onDelete}><FaTrashAlt /></button>
 							</div>
 							<div className={cx(styles['form-group'], styles['row'])}>
 								<label className={styles['col-sm-2']}>Nama</label>:
