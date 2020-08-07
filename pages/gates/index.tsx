@@ -11,6 +11,7 @@ import GenericTable from '../../components/GenericTable';
 import styles from '../styles.module.scss';
 import gateResource from '../../resources/gate';
 import { Pagination } from '../../types';
+import { gateType } from '../../utils/string';
 
 interface Props {
 
@@ -33,7 +34,7 @@ const GatesPage: FunctionComponent<Props> = (props: Props) => {
 		{
 			name: 'Jenis',
 			selector: 'type',
-			format: data => data.type === 'in' ? 'Masuk' : 'Keluar',
+			cell: data => gateType(data.type),
 			sortable: true
 		},
 		{
