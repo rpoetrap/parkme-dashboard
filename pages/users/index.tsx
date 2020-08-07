@@ -133,7 +133,7 @@ const UsersPage: NextPage<Props> = (props: Props) => {
 								</Link>
 							</div>
 							<GenericTable
-								id="tableKendaraan"
+								id="tableUsers"
 								columns={tableColumns}
 								data={resourceData}
 								routeName={router.pathname.split('/').pop()}

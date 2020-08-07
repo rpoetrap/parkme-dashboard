@@ -125,7 +125,7 @@ const GatesPage: NextPage<Props> = (props: Props) => {
 								</Link>
 							</div>
 							<GenericTable
-								id="tableKendaraan"
+								id="tablePalangParkir"
 								columns={tableColumns}
 								data={resourceData}
 								routeName={router.pathname.split('/').pop()}
