@@ -1,4 +1,5 @@
-import { FunctionComponent, useState, useEffect, FormEvent } from 'react'
+import { useState, useEffect, FormEvent } from 'react'
+import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Swal from 'sweetalert2';
 import cx from 'classnames';
@@ -8,14 +9,14 @@ import { Card, CardBody } from '../../../../components/Card';
 import styles from '../../../styles.module.scss';
 import gateResource from '../../../../resources/gate';
 import FormInput, { OptionType } from '../../../../components/FormInput';
-import { ButtonState, InputState, APIErrors } from '../../../../types';
+import { ButtonState, InputState, APIErrors, GlobalProps } from '../../../../types';
 import GenericError from '../../../../components/GenericError';
 
-interface Props {
+interface Props extends GlobalProps {
 
 }
 
-const AddGatesPage: FunctionComponent<Props> = (props: Props) => {
+const AddGatesPage: NextPage<Props> = (props: Props) => {
 	const { } = props;
 	const router = useRouter();
 	const { id } = router.query;
@@ -118,7 +119,7 @@ const AddGatesPage: FunctionComponent<Props> = (props: Props) => {
 
 	if (!loading && !resourceData) return <GenericError />
 	return (
-		<Authenticated title="Palang Parkir" loading={loading}>
+		<Authenticated config={props.config} title="Palang Parkir" loading={loading}>
 			<div className={styles.row}>
 				<div className={styles.col}>
 					<Card>

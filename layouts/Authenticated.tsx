@@ -9,13 +9,12 @@ import moment from 'moment';
 import { Spinner } from 'reactstrap';
 
 import styles from './styles.module.scss';
-import { StateUserContext, DispatchUserContext } from '../dispatcher/user';
 import authResource from '../resources/auth';
 import Preloader from '../components/Preloader';
 import Swal from 'sweetalert2';
-import { userInfo } from 'os';
+import { GlobalProps } from '../types';
 
-interface Props {
+interface Props extends GlobalProps {
 	children?: ReactNode;
 	title?: string;
 	style?: React.CSSProperties;
@@ -56,14 +55,13 @@ const menuItems = [
 ]
 
 const Authenticated: FunctionComponent<Props> = (props: Props) => {
-	const { children, title, style, loading: pageLoading } = props;
+	const { children, title, style, loading: pageLoading, config: { user } } = props;
+
 	const router = useRouter();
-	const stateUser = useContext(StateUserContext);
-	const dispatchUser = useContext(DispatchUserContext);
 	let timeInterval: number;
 
 	const [time, setTime] = useState(moment());
-	const [loading, setLoading] = useState({ page: pageLoading || false, fetch: false });
+	const [loading, setLoading] = useState({ page: false, fetch: false });
 
 	const checkAuth = async () => {
 		try {
@@ -76,7 +74,7 @@ const Authenticated: FunctionComponent<Props> = (props: Props) => {
 			if (!userInfo) throw null;
 			if (userInfo.error) throw userInfo.error.errors;
 
-			dispatchUser({ type: 'set_user', payload: userInfo.data });
+			// setcookie
 		} catch {
 			router.push('/login');
 		} finally {
@@ -92,7 +90,7 @@ const Authenticated: FunctionComponent<Props> = (props: Props) => {
 			if (!result) throw null;
 			if (result.error) throw result.error.errors;
 
-			dispatchUser({ type: 'logout' });
+			// delete cookie
 			router.push('/login');
 		} catch {
 			Swal.fire({
@@ -106,8 +104,7 @@ const Authenticated: FunctionComponent<Props> = (props: Props) => {
 	useEffect(() => {
 		checkAuth();
 		timeInterval = setInterval(() => {
-			if (stateUser.logout || !stateUser.user) clearInterval(timeInterval);
-			else setTime(moment()), 1000;
+			setTime(moment()), 1000;
 		});
 	}, []);
 
@@ -119,7 +116,7 @@ const Authenticated: FunctionComponent<Props> = (props: Props) => {
 				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 			</Head>
 			<main>
-				{!stateUser.user || loading.page ? <Preloader /> : (
+				{loading.page || pageLoading ? <Preloader /> : (
 					<>
 						<div className={styles.sidebar}>
 							<div className={styles.user_tooltip}>
@@ -142,7 +139,7 @@ const Authenticated: FunctionComponent<Props> = (props: Props) => {
 									{/* <img></img> */}
 								</div>
 								<h5 className={styles.caption}>Halo,</h5>
-								<h4>{stateUser.user.name}</h4>
+								<h4>{user?.name}</h4>
 							</div>
 							{/* Menu Items */}
 							<div className={styles.menu}>

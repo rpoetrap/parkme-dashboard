@@ -39,3 +39,9 @@ export interface APIResponse {
 		errors?: APIErrors[];
 	}
 }
+
+export interface GlobalProps {
+	config: {
+		user?: any;
+	}
+}

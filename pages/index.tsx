@@ -1,4 +1,5 @@
-import { FunctionComponent, useState } from 'react'
+import { useState } from 'react'
+import { NextPage } from 'next';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import cx from 'classnames';
 import Swal from 'sweetalert2';
@@ -10,14 +11,14 @@ import { Card, CardBody } from '../components/Card';
 import GenericTable from '../components/GenericTable';
 import styles from './styles.module.scss';
 import { IDataTableColumn } from 'react-data-table-component';
-import { Pagination, InputState } from '../types';
+import { Pagination, InputState, GlobalProps } from '../types';
 import { number } from '../utils/string';
 
-interface Props {
+interface Props extends GlobalProps {
 
 }
 
-const IndexPage: FunctionComponent<Props> = (props: Props) => {
+const IndexPage: NextPage<Props> = (props: Props) => {
 	const { } = props;
 
 	const [pagination, setPagination] = useState<Pagination>({ pageIndex: 1, itemsPerPage: 10, currentItemCount: 1, totalItems: 1, totalPages: 1, sorts: '' });
@@ -95,7 +96,7 @@ const IndexPage: FunctionComponent<Props> = (props: Props) => {
 	}
 
 	return (
-		<Authenticated title="Dashboard">
+		<Authenticated config={props.config} title="Dashboard">
 			<div className={styles.row}>
 				<div className={cx(styles['col-12'], styles['col-lg-7'])} style={{ marginBottom: '1.875rem' }}>
 					<Card>

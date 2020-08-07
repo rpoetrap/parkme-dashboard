@@ -1,4 +1,5 @@
-import { FunctionComponent, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import { NextPage } from 'next';
 import { IDataTableColumn } from 'react-data-table-component';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -10,14 +11,14 @@ import { Card, CardBody } from '../../components/Card';
 import GenericTable from '../../components/GenericTable';
 import styles from '../styles.module.scss';
 import gateResource from '../../resources/gate';
-import { Pagination } from '../../types';
+import { Pagination, GlobalProps } from '../../types';
 import { gateType } from '../../utils/string';
 
-interface Props {
+interface Props extends GlobalProps {
 
 }
 
-const GatesPage: FunctionComponent<Props> = (props: Props) => {
+const GatesPage: NextPage<Props> = (props: Props) => {
 	const { } = props;
 	const router = useRouter();
 
@@ -112,7 +113,7 @@ const GatesPage: FunctionComponent<Props> = (props: Props) => {
 	}, [pagination.pageIndex, pagination.itemsPerPage, pagination.sorts]);
 
   return (
-    <Authenticated title="Palang Parkir" loading={loading}>
+    <Authenticated config={props.config} title="Palang Parkir" loading={loading}>
       <div className={styles.row}>
 				<div className={styles.col}>
 					<Card>

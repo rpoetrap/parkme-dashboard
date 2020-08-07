@@ -12,8 +12,9 @@ import styles from '../../styles.module.scss';
 import gateResource from '../../../resources/gate';
 import { gateType } from '../../../utils/string';
 import GenericError from '../../../components/GenericError';
+import { GlobalProps } from '../../../types';
 
-interface Props {
+interface Props extends GlobalProps {
 
 }
 
@@ -91,7 +92,7 @@ const SingleGatePage: NextPage<Props> = (props: Props) => {
 
 	if (!loading && !resourceData) return <GenericError />
 	return (
-		<Authenticated title="Palang Parkir" loading={loading}>
+		<Authenticated config={props.config} title="Palang Parkir" loading={loading}>
 			<div className={styles.row}>
 				<div className={styles.col}>
 					<Card>

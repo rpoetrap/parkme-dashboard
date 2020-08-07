@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
-import { FunctionComponent, useState, FormEvent } from 'react';
+import { useState, FormEvent } from 'react';
+import { NextPage } from 'next';
 import { Spinner } from 'reactstrap';
 import Swal from 'sweetalert2';
 import cx from 'classnames';
@@ -8,12 +9,13 @@ import Web from '../../layouts/Web';
 import FormInput from '../../components/FormInput';
 import styles from './styles.module.scss';
 import authResource from '../../resources/auth';
-import { APIErrors } from '../../types';
+import { APIErrors, GlobalProps } from '../../types';
 
-interface Props {
+interface Props extends GlobalProps {
 
 }
-const LoginPage: FunctionComponent<Props> = (props: Props) => {
+
+const LoginPage: NextPage<Props> = (props: Props) => {
 	const { } = props;
 	const router = useRouter();
   const [username, setUsername] = useState({ value: '', error: false, errorMessage: '' });
@@ -56,7 +58,8 @@ const LoginPage: FunctionComponent<Props> = (props: Props) => {
   return (
     <Web
       title="Login"
-      className={styles.container}
+			className={styles.container}
+			config={props.config}
     >
       <div className={styles.background}></div>
       <div className={styles.login_container}>
