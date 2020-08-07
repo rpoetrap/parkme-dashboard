@@ -37,6 +37,7 @@ const GenericTable: FunctionComponent<Props> = (props: Props) => {
 		return { column, direction };
 	});
 
+	columns = [...columns];
 	if (!hideRowNumber) {
 		columns.unshift({
 			name: '#',
