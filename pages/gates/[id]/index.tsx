@@ -26,7 +26,7 @@ const SingleGatePage: NextPage<Props> = (props: Props) => {
 	const resourcePath = router.pathname.split('/').slice(0, -1).join('/');
 
 	const [resourceData, setResourceData] = useState<any>(null);
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 
 	const fetchData = async () => {
 		try {

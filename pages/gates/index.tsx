@@ -23,7 +23,7 @@ const GatesPage: NextPage<Props> = (props: Props) => {
 	const router = useRouter();
 
 	const [resourceData, setResourceData] = useState<any[]>([]);
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 	const [pagination, setPagination] = useState<Pagination>({ pageIndex: 1, itemsPerPage: 10, currentItemCount: 1, totalItems: 1, totalPages: 1, sorts: '' });
 	
 	const tableColumns: IDataTableColumn[] = [

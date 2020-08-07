@@ -26,7 +26,7 @@ const AddGatesPage: NextPage<Props> = (props: Props) => {
 	const [name, setName] = useState<InputState<string>>({ value: '', error: false, errorMessage: '' });
 	const [type, setType] = useState<InputState<any>>({ value: null, error: false, errorMessage: '' });
 	const [description, setDescription] = useState<InputState<string>>({ value: '', error: false, errorMessage: '' });
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 	const [btnState, setBtnState] = useState<ButtonState>('disabled');
 
 	const typeData: OptionType[] = [
