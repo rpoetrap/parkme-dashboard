@@ -25,7 +25,7 @@ const SingleGatePage: NextPage<Props> = (props: Props) => {
 	const resourcePath = router.pathname.split('/').slice(0, -1).join('/');
 
 	const [resourceData, setResourceData] = useState<any>(null);
-	const [loading, setLoading] = useState<any>({ page: false, fetch: false });
+	const [loading, setLoading] = useState(false);
 
 	const fetchData = async () => {
 		try {
@@ -115,6 +115,17 @@ const SingleGatePage: NextPage<Props> = (props: Props) => {
 								<label className={styles['col-sm-2']}>Deskripsi</label>:
 								<div className={styles['col']}>{resourceData?.description}</div>
 							</div>
+							{resourceData?.code ? (
+								<div className={cx(styles['form-group'], styles['row'])}>
+									<label className={styles['col-sm-2']}>Kode</label>:
+									<div className={styles['col']}>{resourceData?.code}</div>
+								</div>
+							) : (
+								<div className={cx(styles['form-group'], styles['row'])}>
+									<label className={styles['col-sm-2']}>Session ID</label>:
+									<div className={styles['col']}>{resourceData?.session_id}</div>
+								</div>
+							)}
 						</CardBody>
 					</Card>
 				</div>
