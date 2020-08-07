@@ -119,7 +119,7 @@ const IndexPage: NextPage<Props> = (props: Props) => {
 				<div className={cx(styles['col-12'], styles['col-lg-5'])} style={{ marginBottom: '1.875rem' }}>
 					<Card>
 						<CardBody>
-							<div className={styles['mb-3']}>
+							<div className={styles['mb-3']} style={{ marginLeft: '-1rem', marginRight: '-1rem' }}>
 								<FormInput
 									id="dropdownStats"
 									type="dropdown"
