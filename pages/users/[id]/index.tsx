@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router';
 import Swal from 'sweetalert2';
 import cx from 'classnames';
-import { FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { FaEdit, FaTrashAlt, FaUserTie } from 'react-icons/fa';
 import Link from 'next/link';
 import { ReactSVG } from 'react-svg';
 
@@ -20,7 +20,7 @@ interface Props extends GlobalProps {
 
 const SingleUserPage: NextPage<Props> = (props: Props) => {
 	const { } = props;
-	
+
 	const router = useRouter();
 	const { id } = router.query;
 	const resourcePath = router.pathname.split('/').slice(0, -1).join('/');
@@ -117,7 +117,13 @@ const SingleUserPage: NextPage<Props> = (props: Props) => {
 									</div>
 									<div className={cx(styles['form-group'], styles['row'])}>
 										<label className={styles['col-sm-3']}>Nama</label>:
-										<div className={styles['col']}>{resourceData?.name}</div>
+										<div className={styles['col']}>
+											{resourceData?.name}
+											{resourceData?.is_admin ?
+												<span className={cx(styles['badge'], styles['badge-info'], styles['ml-1'])}><FaUserTie /></span> :
+												undefined
+											}
+										</div>
 									</div>
 									<div className={cx(styles['form-group'], styles['row'])}>
 										<label className={styles['col-sm-3']}>Nomor Telepon</label>:

@@ -1,5 +1,6 @@
 import { FunctionComponent, Dispatch, SetStateAction } from 'react';
 import Select, { OptionTypeBase } from 'react-select';
+import Switch from 'react-switch';
 import cx from 'classnames';
 
 import styles from '../../pages/styles.module.scss';
@@ -25,6 +26,17 @@ const FormInput: FunctionComponent<Props> = (props: Props) => {
 	const { id, type, placeholder, setter, getter } = props;
 
   switch (type) {
+    case 'switch': {
+      return (
+        <Switch
+          className={cx(styles['col'], styles['my-auto'])}
+          uncheckedIcon={false}
+          checkedIcon={false}
+          checked={getter.value}
+          onChange={(checked) => setter({ value: checked, error: false, errorMessage: '' })}
+        />
+      )
+    }
     case 'dropdown': {
       const { data } = props;
       return (

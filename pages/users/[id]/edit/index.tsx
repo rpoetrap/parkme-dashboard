@@ -26,6 +26,7 @@ const EditUserPage: NextPage<Props> = (props: Props) => {
 	const [userIdentifier, setUserIdentifier] = useState<InputState<string>>({ value: '', error: false, errorMessage: '' });
 	const [name, setName] = useState<InputState<string>>({ value: '', error: false, errorMessage: '' });
 	const [phone, setPhone] = useState<InputState<string>>({ value: '', error: false, errorMessage: '' });
+	const [admin, setAdmin] = useState<InputState<boolean>>({ value: false, error: false, errorMessage: '' });
 	const [loading, setLoading] = useState(true);
 	const [btnState, setBtnState] = useState<ButtonState>('disabled');
 
@@ -39,6 +40,7 @@ const EditUserPage: NextPage<Props> = (props: Props) => {
 			setUserIdentifier(getter => ({ ...getter, value: data.user_identifier }));
 			setName(getter => ({ ...getter, value: data.name }));
 			setPhone(getter => ({ ...getter, value: data.phone }));
+			setAdmin(getter => ({ ...getter, value: data.is_admin }));
 		} catch (err) {
 			Swal.fire({
 				title: 'Error to fetch user',
@@ -57,6 +59,7 @@ const EditUserPage: NextPage<Props> = (props: Props) => {
 				user_identifier: userIdentifier.value ? userIdentifier.value : undefined,
 				name: name.value ? name.value : undefined,
 				phone: phone.value ? phone.value : undefined,
+				is_admin: admin.value,
 			}
 			const result = await userResource.patchData(id as string, postData);
 			if (!result) throw null;
@@ -134,6 +137,10 @@ const EditUserPage: NextPage<Props> = (props: Props) => {
 								<div className={cx(styles['form-group'], styles['row'])}>
 									<label className={cx(styles['col-sm-2'], styles['col-form-label'])}>Nomor Telepon</label>
 									<FormInput type="text" getter={phone} setter={setPhone} />
+								</div>
+								<div className={cx(styles['form-group'], styles['row'])}>
+									<label className={cx(styles['col-sm-2'], styles['col-form-label'])}>Admin</label>
+									<FormInput type="switch" getter={admin} setter={setAdmin} />
 								</div>
 								<div className={cx(styles['d-flex'], styles['justify-content-end'])}>
 									<button
