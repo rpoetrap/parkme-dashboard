@@ -28,9 +28,10 @@ const Web: FunctionComponent<Props> = (props: Props) => {
 			const result = await authResource.nonauthCheck();
 			if (!result) throw null;
 			if (result.error) router.push('/');
+			else setLoading(false);
 		} catch {
 			Swal.fire({ icon: 'error', title: 'Failed to check auth status !' });
-			setLoading(false)
+			setLoading(false);
 		}
 	}
 
