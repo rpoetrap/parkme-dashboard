@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { FunctionComponent, useState, FormEvent } from 'react';
 import { Spinner } from 'reactstrap';
 import Swal from 'sweetalert2';
+import cx from 'classnames';
 
 import Web from '../../layouts/Web';
 import FormInput from '../../components/FormInput';
@@ -63,10 +64,10 @@ const LoginPage: FunctionComponent<Props> = (props: Props) => {
           <img src="/assets/img/logo.png" />
           <form onSubmit={onSubmit}>
             <h3 className={styles.title}>Login</h3>
-						<div className={styles['row']}>
+						<div className={cx(styles['row'], styles['mb-2'])}>
             	<FormInput type="text" placeholder="Username" setter={setUsername} getter={username} />
 						</div>
-						<div className={styles['row']}>
+						<div className={cx(styles['row'], styles['mb-2'])}>
             	<FormInput type="password" placeholder="Password" setter={setPassword} getter={password} />
 						</div>
             <button disabled={loading}>
