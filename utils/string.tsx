@@ -1,5 +1,6 @@
 import accounting from 'accounting';
 import cx from 'classnames';
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
 interface ObjectString {
 	[key: string]: string;
@@ -38,6 +39,24 @@ export const gateType = (type: string) => {
 			return type;
 	}
 	return <div className={cx(classes)}>{text}</div>;
+}
+
+export const switchType = (type: boolean) => {
+	const classes = [];
+	let text: JSX.Element;
+	switch (type) {
+		case true:
+			classes.push('text-success');
+			text = <FaCheckCircle />;
+			break;
+		case false:
+			classes.push('text-danger');
+			text = <FaTimesCircle />;
+			break;
+		default:
+			return type;
+	}
+	return <div className={cx(classes)} style={{ fontSize: '1.4rem' }}>{text}</div>;
 }
 
 accounting.settings = {
