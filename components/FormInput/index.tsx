@@ -1,8 +1,11 @@
-import { FunctionComponent, Dispatch, SetStateAction } from 'react';
+import { FunctionComponent, Dispatch, SetStateAction, useCallback } from 'react';
 import Select, { OptionTypeBase } from 'react-select';
 import SelectAsync from 'react-select/async';
 import Switch from 'react-switch';
 import cx from 'classnames';
+import attr from 'attr-accept';
+import { useDropzone } from 'react-dropzone';
+import { FiUploadCloud, FiX } from 'react-icons/fi';
 
 import styles from '../../pages/styles.module.scss';
 import { InputState, Pagination } from '../../types';
@@ -14,7 +17,7 @@ export interface OptionType extends OptionTypeBase {
 }
 
 interface Props {
-	id?: string;
+  id?: string;
   type: string;
   placeholder?: string;
   data?: OptionType[];
@@ -22,14 +25,74 @@ interface Props {
   getter: InputState<any>;
   pagination?: Pagination;
   fetchPagination?: (pagination: Pagination) => Promise<OptionType[]>;
+  accept?: string | string[];
+  disabled?: boolean;
 }
 
 let reactSelectId = 1;
 
 const FormInput: FunctionComponent<Props> = (props: Props) => {
-	const { id, type, placeholder, setter, getter } = props;
+  const { id, type, placeholder, setter, getter } = props;
 
   switch (type) {
+    case 'file': {
+      const { accept, disabled } = props;
+      const { value, error, errorMessage } = getter;
+      const isImage = attr(value, 'image/*');
+      const clearFunction = () => setter({ value, error: false, errorMessage: '' });
+      const onChange = (acceptedFiles: File[]) => {
+        if (acceptedFiles.length) {
+          if (acceptedFiles[0].size < 1000000) {
+            setter({ value: acceptedFiles[0], error: false, errorMessage: '' });
+          } else {
+            setter((prev) => {
+              const { value } = prev;
+              return ({ value, error: true, errorMessage: 'Maximum file size is 1MB !' });
+            });
+          }
+        }
+      };
+
+      const onDrop = useCallback(onChange, []);
+      const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, multiple: false, accept, disabled });
+
+      return (
+        <div className={styles['col']}>
+          <div
+            className={cx(styles['dropzone'], error ? styles['error'] : undefined, disabled ? 'disabled' : undefined)}
+            {...getRootProps()}
+          >
+            <input {...getInputProps()} />
+            { value ? isImage ?
+                <img className={styles['temp-image']} src={URL.createObjectURL(value)} /> : (
+                  <div className={styles['inner-container']}>
+                    <p>{value.name}</p>
+                    <FiUploadCloud />
+                  </div>
+                ) : (
+                  <div className={styles['inner-container']}>
+                    {!disabled && (
+                      <>
+                        {isDragActive ?
+                          <p>Drop file kesini ...</p> :
+                          <p>{placeholder || `Drag 'n' drop file kesini, atau klik untuk memilih file`}</p>
+                        }
+                        <FiUploadCloud />
+                      </>
+                    )}
+                  </div>
+                )
+            }
+          </div>
+          <div className={styles['invalid-feedback']}>
+            {errorMessage}
+            <a style={{ marginLeft: '3px', cursor: 'pointer' }} onClick={() => clearFunction()}>
+              <FiX />
+            </a>
+          </div>
+        </div>
+      );
+    }
     case 'switch': {
       return (
         <Switch
@@ -46,7 +109,7 @@ const FormInput: FunctionComponent<Props> = (props: Props) => {
       return (
         <div className={styles['col']}>
           <Select
-            id={ id ? id : `react-select-${reactSelectId++}`}
+            id={id ? id : `react-select-${reactSelectId++}`}
             className={getter && getter.error ? styles.invalid : undefined}
             styles={{
               input: () => ({
@@ -74,7 +137,7 @@ const FormInput: FunctionComponent<Props> = (props: Props) => {
       return (
         <div className={styles['col']}>
           <SelectAsync
-            id={ id ? id : `react-select-${reactSelectId++}`}
+            id={id ? id : `react-select-${reactSelectId++}`}
             className={getter && getter.error ? styles.invalid : undefined}
             styles={{
               input: () => ({
@@ -103,7 +166,7 @@ const FormInput: FunctionComponent<Props> = (props: Props) => {
       return (
         <div className={styles['col']}>
           <input
-						id={id ? id : undefined}
+            id={id ? id : undefined}
             className={getter && getter.error ? styles.invalid : undefined}
             type="text"
             placeholder={placeholder}
@@ -120,7 +183,7 @@ const FormInput: FunctionComponent<Props> = (props: Props) => {
       return (
         <div className={styles['col']}>
           <input
-						id={id ? id : undefined}
+            id={id ? id : undefined}
             className={getter && getter.error ? styles.invalid : undefined}
             type="password"
             placeholder={placeholder}
@@ -138,7 +201,7 @@ const FormInput: FunctionComponent<Props> = (props: Props) => {
       return (
         <div className={styles['col']}>
           <input
-						id={id ? id : undefined}
+            id={id ? id : undefined}
             className={getter && getter.error ? styles.invalid : undefined}
             type="text"
             placeholder={placeholder}

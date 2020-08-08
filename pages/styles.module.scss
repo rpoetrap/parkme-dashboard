@@ -23,3 +23,34 @@ div {
     }
   }
 }
+
+.dropzone {
+  @extend .d-flex;
+  @extend .align-items-center;
+  @extend .justify-content-center;
+  flex: 1;
+  flex-direction: column;
+  padding: 20px;
+  border-width: 2;
+  border-radius: 2;
+  border-color: #eeeeee;
+  border-style: dashed;
+  background-color: #fafafa;
+  color: #bdbdbd;
+  outline: none;
+  transition: border .24s ease-in-out;
+
+  &.error {
+    @extend .border-danger;
+  }
+
+  .temp-image {
+    max-height: 10rem;
+  }
+
+  .inner-container {
+    @extend .d-flex;
+    @extend .flex-column;
+    @extend .align-items-center;
+  }
+}
