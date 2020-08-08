@@ -47,11 +47,6 @@ const menuItems = [
 		icon: FaAddressCard,
 		link: '/cards'
 	},
-	{
-		label: 'Laporan',
-		icon: FaFileAlt,
-		link: '/reports'
-	},
 ]
 
 const Authenticated: FunctionComponent<Props> = (props: Props) => {
@@ -128,9 +123,11 @@ const Authenticated: FunctionComponent<Props> = (props: Props) => {
 									<FaBell className={styles.icon} />
 									<span className={styles.notification_count}>99+</span>
 								</button> */}
-								<button type="button" className={styles['p-0']}>
-									<FaCog className={cx(styles.icon, 'text-primary')} />
-								</button>
+								<Link href="/config">
+									<a className={styles['p-0']}>
+										<FaCog className={cx(styles.icon, 'text-primary')} />
+									</a>
+								</Link>
 							</div>
 							{/* User Profile */}
 							<div className={styles.user_profile}>
