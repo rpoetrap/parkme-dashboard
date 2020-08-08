@@ -1,6 +1,6 @@
-import React, { ReactNode, FunctionComponent, useState, useEffect, useContext, MouseEvent } from 'react'
+import React, { ReactNode, FunctionComponent, useState, useEffect, MouseEvent } from 'react'
 import Head from 'next/head'
-import { FaBell, FaCog, FaHome, FaParking, FaUserFriends, FaAddressCard, FaSignOutAlt, FaUserLock, FaFileAlt } from 'react-icons/fa';
+import { FaBell, FaCog, FaHome, FaParking, FaUserFriends, FaAddressCard, FaSignOutAlt, FaUserLock } from 'react-icons/fa';
 import { ReactSVG } from 'react-svg';
 import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';

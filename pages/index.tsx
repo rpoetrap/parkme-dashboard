@@ -52,6 +52,7 @@ const IndexPage: NextPage<Props> = (props: Props) => {
 		{
 			name: 'Identitas Kartu',
 			selector: 'card.user.name',
+			format: data => data?.card?.user?.name || '-',
 			grow: 3,
 			sortable: true
 		},

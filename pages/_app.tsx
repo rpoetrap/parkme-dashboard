@@ -26,6 +26,13 @@ class CoreApp extends App {
 		const userResponse = await authResource.getUserInfo();
 		const user = userResponse?.data || {};
 
+		if (!userResponse.data) {
+			console.log(ctx.pathname);
+			if (ctx?.res && ctx.pathname != '/login') {
+				ctx.res.writeHead(301, { Location: '/login' });
+				ctx.res.end();
+			}
+		}
 		return { pageProps: { ...pageProps, config: { user } } };
 	}
 

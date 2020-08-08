@@ -36,6 +36,7 @@ const CardsPage: NextPage<Props> = (props: Props) => {
 		{
 			name: 'Pemilik Kartu',
 			selector: 'user.name',
+			format: data => data?.user?.name || '-',
 			grow: 2,
 			sortable: true
 		},
