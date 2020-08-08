@@ -171,7 +171,7 @@ const FormInput: FunctionComponent<Props> = (props: Props) => {
             type="text"
             placeholder={placeholder}
             value={formatted || undefined}
-            onChange={(e) => setter({ value: number.unformat(e.target.value), error: false, errorMessage: '' })}
+            onChange={(e) => setter({ value: Math.abs(number.unformat(e.target.value)), error: false, errorMessage: '' })}
           />
           <div className={styles['invalid-feedback']}>
             {getter && getter.errorMessage}
