@@ -1,10 +1,11 @@
 import { FunctionComponent, Dispatch, SetStateAction } from 'react';
 import Select, { OptionTypeBase } from 'react-select';
+import SelectAsync from 'react-select/async';
 import Switch from 'react-switch';
 import cx from 'classnames';
 
 import styles from '../../pages/styles.module.scss';
-import { InputState } from '../../types';
+import { InputState, Pagination } from '../../types';
 
 export interface OptionType extends OptionTypeBase {
   label: string;
@@ -18,6 +19,8 @@ interface Props {
   data?: OptionType[];
   setter: Dispatch<SetStateAction<InputState<any>>>;
   getter: InputState<any>;
+  pagination?: Pagination;
+  fetchPagination?: (pagination: Pagination) => Promise<OptionType[]>;
 }
 
 let reactSelectId = 1;
@@ -56,6 +59,35 @@ const FormInput: FunctionComponent<Props> = (props: Props) => {
               })
             }}
             options={data}
+            onChange={(data) => setter({ value: data, error: false, errorMessage: '' })}
+            value={getter ? getter.value : undefined}
+          />
+          <div className={styles['invalid-feedback']}>
+            {getter && getter.errorMessage}
+          </div>
+        </div>
+      )
+    }
+    case 'dropdownAsync': {
+      const { data, pagination, fetchPagination } = props;
+      return (
+        <div className={styles['col']}>
+          <SelectAsync
+            id={ id ? id : `react-select-${reactSelectId++}`}
+            className={getter && getter.error ? styles.invalid : undefined}
+            styles={{
+              input: () => ({
+                boxShadow: 'none',
+                'input': { boxShadow: 'none', height: 'unset' }
+              }),
+              control: (provided, state) => ({
+                ...provided, borderColor: getter.error ? '#dc3545' : provided.borderColor,
+                '&:hover': { borderColor: getter.error ? '#dc3545' : provided.borderColor },
+                boxShadow: getter.error && state.isFocused ? '0 0 0 1px #dc3545' : provided.boxShadow
+              })
+            }}
+            defaultOptions={data ?? true}
+            loadOptions={(input) => fetchPagination!({ ...pagination!, filters: `name=@${input}` })}
             onChange={(data) => setter({ value: data, error: false, errorMessage: '' })}
             value={getter ? getter.value : undefined}
           />
