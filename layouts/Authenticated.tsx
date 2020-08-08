@@ -103,6 +103,10 @@ const Authenticated: FunctionComponent<Props> = (props: Props) => {
 
 	useEffect(() => {
 		checkAuth();
+	}, [user]);
+
+	useEffect(() => {
+		checkAuth();
 		timeInterval = setInterval(() => {
 			setTime(moment()), 1000;
 		});
