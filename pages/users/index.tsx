@@ -19,7 +19,7 @@ interface Props extends GlobalProps {
 }
 
 const UsersPage: NextPage<Props> = (props: Props) => {
-	const { config: { user } } = props;
+	const user = props.config?.user;
 	
 	const router = useRouter();
 

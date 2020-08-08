@@ -41,7 +41,7 @@ export interface APIResponse {
 }
 
 export interface GlobalProps {
-	config: {
+	config?: {
 		user?: any;
 	}
 }

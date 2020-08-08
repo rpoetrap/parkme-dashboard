@@ -50,7 +50,8 @@ const menuItems = [
 ]
 
 const Authenticated: FunctionComponent<Props> = (props: Props) => {
-	const { children, title, style, loading: pageLoading, config: { user } } = props;
+	const { children, title, style, loading: pageLoading } = props;
+	const user = props.config?.user;
 
 	const router = useRouter();
 	let timeInterval: number;

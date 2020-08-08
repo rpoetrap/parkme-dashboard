@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { NextPage } from 'next';
 import { Spinner } from 'reactstrap';
 import Swal from 'sweetalert2';
@@ -9,14 +9,15 @@ import Web from '../../layouts/Web';
 import FormInput from '../../components/FormInput';
 import styles from './styles.module.scss';
 import authResource from '../../resources/auth';
-import { APIErrors, GlobalProps } from '../../types';
+import configResource from '../../resources/config';
+import { APIErrors, GlobalProps, Pagination } from '../../types';
 
 interface Props extends GlobalProps {
-
+	logo: string;
 }
 
 const LoginPage: NextPage<Props> = (props: Props) => {
-	const { } = props;
+	const { logo } = props;
 	const router = useRouter();
   const [username, setUsername] = useState({ value: '', error: false, errorMessage: '' });
 	const [password, setPassword] = useState({ value: '', error: false, errorMessage: '' });
@@ -55,6 +56,7 @@ const LoginPage: NextPage<Props> = (props: Props) => {
 			setLoading(false);
 		}
 	}
+
   return (
     <Web
       title="Login"
@@ -64,7 +66,7 @@ const LoginPage: NextPage<Props> = (props: Props) => {
       <div className={styles.background}></div>
       <div className={styles.login_container}>
         <div className={styles.login_form}>
-          <img src="/assets/img/logo.png" />
+          <img src={logo} />
           <form onSubmit={onSubmit}>
             <h3 className={styles.title}>Login</h3>
 						<div className={cx(styles['row'], styles['mb-2'])}>
@@ -86,6 +88,25 @@ const LoginPage: NextPage<Props> = (props: Props) => {
       </div>
     </Web>
   )
+}
+
+LoginPage.getInitialProps = async () => {
+	const fetchConfig = async () => {
+		try {
+			const pagination: Pagination = { pageIndex: 1, itemsPerPage: 1, currentItemCount: 1, totalItems: 1, totalPages: 1, sorts: '', filters: 'key==logo' }
+			const result = await configResource.getList(pagination);
+			if (!result) throw null;
+			if (result.error) throw result.error;
+			if (result.data?.items?.length == 0) throw null;
+			const { data } = result;
+			return data.items[0].value;
+		} catch {
+			return null;
+		}
+	}
+
+	const logo = await fetchConfig() || '/assets/img/logo.png';
+	return { logo }
 }
 
 export default LoginPage;
