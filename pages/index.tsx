@@ -160,8 +160,8 @@ const IndexPage: NextPage<Props> = (props: Props) => {
 									<YAxis />
 									<Tooltip />
 									<Legend />
-									<Area type="monotone" dataKey="masuk" fill="#007bff" stroke="#007bff" strokeWidth={0} />
-									<Area type="monotone" dataKey="keluar" fill="red" stroke="red" strokeWidth={0} />
+									<Area type="monotone" stackId="1" dataKey="masuk" fillOpacity="0.9" fill="#007bff" stroke="#007bff" strokeWidth={0} />
+									<Area type="monotone" stackId="1" dataKey="keluar" fillOpacity="0.9" fill="#dc3545" stroke="#dc3545" strokeWidth={0} />
 								</AreaChart>
 							</ResponsiveContainer>
 						</CardBody>
