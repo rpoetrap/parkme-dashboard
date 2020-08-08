@@ -6,6 +6,7 @@ import cx from 'classnames';
 
 import styles from '../../pages/styles.module.scss';
 import { InputState, Pagination } from '../../types';
+import { number } from '../../utils/string';
 
 export interface OptionType extends OptionTypeBase {
   label: string;
@@ -90,6 +91,24 @@ const FormInput: FunctionComponent<Props> = (props: Props) => {
             loadOptions={(input) => fetchPagination!({ ...pagination!, filters: `name=@${input}` })}
             onChange={(data) => setter({ value: data, error: false, errorMessage: '' })}
             value={getter ? getter.value : undefined}
+          />
+          <div className={styles['invalid-feedback']}>
+            {getter && getter.errorMessage}
+          </div>
+        </div>
+      )
+    }
+    case 'currency': {
+      const formatted = number.formatMoney(getter.value) || (getter.value as number).toString();
+      return (
+        <div className={styles['col']}>
+          <input
+						id={id ? id : undefined}
+            className={getter && getter.error ? styles.invalid : undefined}
+            type="text"
+            placeholder={placeholder}
+            value={formatted || undefined}
+            onChange={(e) => setter({ value: number.unformat(e.target.value), error: false, errorMessage: '' })}
           />
           <div className={styles['invalid-feedback']}>
             {getter && getter.errorMessage}
