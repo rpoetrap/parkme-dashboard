@@ -27,7 +27,6 @@ class CoreApp extends App {
 		const user = userResponse?.data || {};
 
 		if (!userResponse.data) {
-			console.log(ctx.pathname);
 			if (ctx?.res && ctx.pathname != '/login') {
 				ctx.res.writeHead(301, { Location: '/login' });
 				ctx.res.end();
