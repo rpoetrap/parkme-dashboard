@@ -1,18 +1,20 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { NextPage } from 'next';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import cx from 'classnames';
 import Swal from 'sweetalert2';
 import moment from 'moment';
+import { IDataTableColumn } from 'react-data-table-component';
 
 import Authenticated from '../layouts/Authenticated'
 import FormInput, { OptionType } from '../components/FormInput';
 import { Card, CardBody } from '../components/Card';
 import GenericTable from '../components/GenericTable';
 import styles from './styles.module.scss';
-import { IDataTableColumn } from 'react-data-table-component';
 import { Pagination, InputState, GlobalProps } from '../types';
 import { number } from '../utils/string';
+import historyResource from '../resources/history';
+import parkingResource from '../resources/parking';
 
 interface Props extends GlobalProps {
 
@@ -21,17 +23,13 @@ interface Props extends GlobalProps {
 const IndexPage: NextPage<Props> = (props: Props) => {
 	const { } = props;
 
-	const [pagination, setPagination] = useState<Pagination>({ pageIndex: 1, itemsPerPage: 10, currentItemCount: 1, totalItems: 1, totalPages: 1, sorts: '' });
-	const statsData: any[] = [];
-
-	for (const start = moment().startOf('isoWeek'); start.isBefore(moment().endOf('isoWeek')); start.add(1, 'day')) {
-		const masuk = start.isSameOrBefore(moment()) ? Math.round(Math.random() * 100) : 0;
-		statsData.push({
-			date: start.format('DD/MM/YYYY'),
-			masuk: masuk,
-			keluar: Math.round(Math.random() * masuk)
-		})
-	}
+	const [pagination, setPagination] = useState<Pagination>({ pageIndex: 1, itemsPerPage: 10, currentItemCount: 1, totalItems: 1, totalPages: 1, sorts: '-created_at' });
+	const [tableData, setTableData] = useState<any[]>([]);
+	const [statsData, setStatsData] = useState<any[]>([]);
+	const [totalIn, setTotalIn] = useState(0);
+	const [totalOut, setTotalOut] = useState(0);
+	const [totalEarning, setTotalEarning] = useState(0);
+	const [loading, setLoading] = useState(true);
 
 	const options = [
 		{
@@ -45,18 +43,15 @@ const IndexPage: NextPage<Props> = (props: Props) => {
 	];
 	const [selectStats, setSelectStats] = useState<InputState<OptionType>>({ value: options[0], error: false, errorMessage: '' });
 
-	const tableData = [
-		{ id: 1, plate: 'S6187NJ', owner: 'Bambang', created_at: moment().subtract(1, 'minute').toDate() },
-	];
 	const tableColumns: IDataTableColumn[] = [
 		{
 			name: 'TNKB',
-			selector: 'plate',
+			selector: 'vehicle.plate',
 			sortable: true
 		},
 		{
 			name: 'Identitas Kartu',
-			selector: 'owner',
+			selector: 'card.user.name',
 			grow: 3,
 			sortable: true
 		},
@@ -79,6 +74,45 @@ const IndexPage: NextPage<Props> = (props: Props) => {
 		},
 	];
 
+	const fetchStats = async () => {
+		try {
+			const result = await historyResource.getStats(selectStats.value.value);
+			if (!result) throw null;
+			if (result.error && result.error.errors) throw result.error.errors;
+			const { data: resultPagination } = result;
+			setStatsData(resultPagination.items.map(item => ({ date: item.date, masuk: item.in, keluar: item.out })));
+			setTotalIn(resultPagination.totalIn);
+			setTotalOut(resultPagination.totalOut);
+			setTotalEarning(resultPagination.totalEarning);
+		} catch {
+			Swal.fire({
+				title: 'Error to fetch stats',
+				icon: 'error'
+			});
+		}
+	}
+
+	const fetchTable = async () => {
+		try {
+			setLoading(true);
+			const result = await parkingResource.getList(pagination);
+			if (!result) throw null;
+			if (result.error && result.error.errors) throw result.error.errors;
+			const { data: resultPagination } = result;
+			setTableData(resultPagination.items);
+			delete resultPagination['items'];
+			delete resultPagination['kind'];
+			setPagination(resultPagination);
+		} catch {
+			Swal.fire({
+				title: 'Error to fetch gates',
+				icon: 'error'
+			});
+		} finally {
+			setLoading(false);
+		}
+	}
+
 	const onDelete = (data: any) => {
 		Swal.fire({
 			title: 'Apakah anda yakin?',
@@ -95,8 +129,24 @@ const IndexPage: NextPage<Props> = (props: Props) => {
 		});
 	}
 
+	useEffect(() => {
+		setLoading(true);
+		Promise.all([
+			fetchStats(),
+			fetchTable()
+		]).then(() => setLoading(false));
+	}, []);
+
+	useEffect(() => {
+		fetchTable();
+	}, [pagination.pageIndex, pagination.itemsPerPage, pagination.sorts]);
+
+	useEffect(() => {
+		fetchStats();
+	}, [selectStats]);
+
 	return (
-		<Authenticated config={props.config} title="Dashboard">
+		<Authenticated config={props.config} title="Dashboard" loading={loading}>
 			<div className={styles.row}>
 				<div className={cx(styles['col-12'], styles['col-lg-7'])} style={{ marginBottom: '1.875rem' }}>
 					<Card>
@@ -132,13 +182,13 @@ const IndexPage: NextPage<Props> = (props: Props) => {
 								<div className="col-12 col-md-6 col-lg-12 col-xl-6 px-2 my-2">
 									<div className="card p-2 text-white bg-primary border-0" style={{ borderRadius: '0.5rem' }}>
 										<small>Kendaraan Masuk</small>
-										<h3 className="m-0 font-weight-normal">{number.formatNumber(statsData.map(item => item.masuk).reduce((a, b) => (a + b)))}</h3>
+										<h3 className="m-0 font-weight-normal">{number.formatNumber(totalIn)}</h3>
 									</div>
 								</div>
 								<div className="col-12 col-md-6 col-lg-12 col-xl-6 px-2 my-2">
 									<div className="card p-2 text-white bg-danger border-0" style={{ borderRadius: '0.5rem' }}>
 										<small>Kendaraan Keluar</small>
-										<h3 className="m-0 font-weight-normal">{number.formatNumber(statsData.map(item => item.keluar).reduce((a, b) => (a + b)))}</h3>
+										<h3 className="m-0 font-weight-normal">{number.formatNumber(totalOut)}</h3>
 									</div>
 								</div>
 							</div>
@@ -146,7 +196,7 @@ const IndexPage: NextPage<Props> = (props: Props) => {
 								<div className="col-12 px-2 my-2">
 									<div className="card p-2 text-white bg-success border-0" style={{ borderRadius: '0.5rem' }}>
 										<small>Penghasilan</small>
-										<h3 className="m-0 font-weight-normal">{number.formatMoney(statsData.map(item => item.keluar).reduce((a, b) => (a + b)) * 1000)}</h3>
+										<h3 className="m-0 font-weight-normal">{number.formatMoney(totalEarning)}</h3>
 									</div>
 								</div>
 							</div>
@@ -158,7 +208,7 @@ const IndexPage: NextPage<Props> = (props: Props) => {
 				<div className={styles.col}>
 					<Card>
 						<CardBody>
-							<h5 className={styles['mb-3']}>Daftar Kendaraan</h5>
+							<h5 className={styles['mb-3']}>Daftar Kendaraan Parkir</h5>
 							<GenericTable
 								id="tableKendaraan"
 								columns={tableColumns}
