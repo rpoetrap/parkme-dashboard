@@ -1,0 +1,66 @@
+@import "bootstrap";
+
+.container {
+  @extend .justify-content-end;
+  background-color: #0C203A;
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+.background {
+  background-image: url("/assets/img/background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.3;
+  filter: blur(10px);
+  min-height: 100vh;
+  min-width: 100vw;
+  position: absolute;
+}
+
+.login_container {
+  @extend .col-sm-12;
+  @extend .col-lg-4;
+  @extend .col-xl-3;
+  @extend .bg-white;
+  @extend .d-flex;
+  @extend .flex-column;
+  @extend .px-5;
+  @extend .pt-5;
+  border-top-left-radius: 32px;
+  border-bottom-left-radius: 32px;
+
+  .login_form {
+    @extend .d-flex;
+    @extend .flex-column;
+    @extend .my-auto;
+
+    img {
+      @extend .align-self-center;
+      @extend .mb-4;
+      max-width: 60%;
+    }
+
+    form {
+      @extend .mt-3;
+
+      .title {
+        @extend .mb-3;
+      }
+
+      button {
+        @extend .btn;
+        @extend .btn-block;
+        @extend .btn-primary;
+        @extend .mt-4;
+      }
+    }
+  }
+
+  .footer {
+    @extend .align-self-center;
+    @extend .pb-3;
+    @extend .text-black-50;
+  }
+}
