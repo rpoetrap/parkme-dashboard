@@ -45,7 +45,7 @@ const EditGatePage: NextPage<Props> = (props: Props) => {
 			const { data } = result;
 			setResourceData(data);
 			setSerial(getter => ({ ...getter, value: data.serial }));
-			setOwner(getter => ({ ...getter, value: { value: data.user.id, label: data.user.name }}));
+			setOwner(getter => ({ ...getter, value: { value: data.user?.id, label: data.user?.name }}));
 			setRole(getter => ({ ...getter, value: { value: data.role.id, label: data.role.name }}));
 			setIsBlocked(getter => ({ ...getter, value: data.is_blocked }));
 		} catch (err) {
